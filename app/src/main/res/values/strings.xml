@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Are You Okay?</string>
+    <string name="P001">Saya merasa sedih selama dua minggu terakhir</string>
+    <string name="P002">Saya merasa pesimis selama dua minggu terakhir</string>
+    <string name="P003">Saya merasa lebih gagal dari orang lain selama dua minggu terakhir</string>
+    <string name="P004">Saya merasa kehilangan kesenangan selama dua minggu terakhir</string>
+    <string name="P005">Saya merasa bersalah selama dua minggu terakhir</string>
+    <string name="P006">Saya merasa saya akan dihukum selama dua minggu terakhir</string>
+    <string name="P007">Saya tidak menyukai diri saya sendiri selama dua minggu terakhir</string>
+    <string name="P008">Saya suka mengkritik diri sendiri selama dua minggu terakhir</string>
+    <string name="P009">Saya memiliki keinginan untuk bunuh diri selama dua minggu terakhir</string>
+    <string name="P010">Saya lebih sering menangis selama dua minggu terakhir</string>
+    <string name="P011">Saya merasa gelisah selama dua minggu terakhir</string>
+    <string name="P012">Saya merasa kehilangan minat pada kegiatan yang dulu saya gemari</string>
+    <string name="P013">Saya sulit mengabil keputusan selama dua minggu terakhir</string>
+    <string name="P014">Saya merasa tidak berharga dan tidak berdaya selama dua minggu terakhir</string>
+    <string name="P015">Saya merasa kehilangan energi selama dua minggu terakhir</string>
+    <string name="P016">Terdapat perubahan dalam pola tidur saya selama dua minggu terakhir</string>
+    <string name="P017">Saya mudah tersinggung selama dua minggu terakhir</string>
+    <string name="P018">Saya mengalami perubahan dalam selera makan selama dua minggu terakhir</string>
+    <string name="P019">Saya sulit berkonsentrasi selama dua minggu terakhir</string>
+    <string name="P020">Saya merasa cepat lelah selama dua minggu terakhir</string>
+    <string name="P021">Saya kehilangan minat dalam melakukan hubungan seksual selama dua minggu terakhir</string>
+    <string name="jawab1">Sangat Sesuai</string>
+    <string name="jawab2">Sesuai</string>
+    <string name="jawab3">Netral</string>
+    <string name="jawab4">Tidak Sesuai</string>
+    <string name="jawab5">Sangat Tidak Sesuai</string>
+
+
+</resources>
