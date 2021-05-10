@@ -27,6 +27,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var btnProfil: LinearLayout
     private lateinit var btnArtikel: CardView
     private lateinit var depresi: TextView
+    private lateinit var keyakinan: TextView
     private lateinit var penanganan : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,7 @@ class HomeActivity : AppCompatActivity() {
         nama = findViewById(R.id.nama)
         icon_gender = findViewById(R.id.icon_gender)
         depresi = findViewById(R.id.depresi)
+        keyakinan = findViewById(R.id.keyakinan)
         penanganan = findViewById(R.id.penanganan)
 
 
@@ -66,6 +68,10 @@ class HomeActivity : AppCompatActivity() {
 
                                     listdata.forEach{
                                         val id_depresi = "${it.id_depresi}"
+                                        val hasilhitung = "${it.hasil_hitung}"
+                                        val hasil = hasilhitung.toDouble()
+                                        val hasilpersen = hasil * 100
+                                        keyakinan.setText(hasilpersen.toString() + "%")
                                         if(id_depresi == "1"){
                                             depresi.setText("Tidak Depresi")
                                             penanganan.visibility = View.GONE
