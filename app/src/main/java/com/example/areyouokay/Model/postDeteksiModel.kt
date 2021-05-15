@@ -1,13 +1,9 @@
 package com.example.areyouokay.Model
 
 data class postDeteksiModel(
-        val id_user: String,
-        val tanggal: String?,
+        val id: Int,
+        val pengguna_id: String,
+        val createdAt: String?,
         val hasil_hitung: String?,
-        val id_depresi: String?,
-        val id_deteksi: List<Data>
-){
-    data class Data(
-            val id_deteksi: Int
-    )
-}
+        val tingkatdepresi_id: String?
+)

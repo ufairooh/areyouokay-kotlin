@@ -5,7 +5,7 @@
     <string name="P003">Saya merasa lebih gagal dari orang lain selama dua minggu terakhir</string>
     <string name="P004">Saya merasa kehilangan kesenangan selama dua minggu terakhir</string>
     <string name="P005">Saya merasa bersalah selama dua minggu terakhir</string>
-    <string name="P006">Saya merasa saya akan dihukum selama dua minggu terakhir</string>
+    <string name="P006">Saya merasa saya akan disalahkan oleh orang lain selama dua minggu terakhir</string>
     <string name="P007">Saya tidak menyukai diri saya sendiri selama dua minggu terakhir</string>
     <string name="P008">Saya suka mengkritik diri sendiri selama dua minggu terakhir</string>
     <string name="P009">Saya memiliki keinginan untuk bunuh diri selama dua minggu terakhir</string>
@@ -20,7 +20,6 @@
     <string name="P018">Saya mengalami perubahan dalam selera makan selama dua minggu terakhir</string>
     <string name="P019">Saya sulit berkonsentrasi selama dua minggu terakhir</string>
     <string name="P020">Saya merasa cepat lelah selama dua minggu terakhir</string>
-    <string name="P021">Saya kehilangan minat dalam melakukan hubungan seksual selama dua minggu terakhir</string>
     <string name="jawab1">Sangat Sesuai</string>
     <string name="jawab2">Sesuai</string>
     <string name="jawab3">Netral</string>

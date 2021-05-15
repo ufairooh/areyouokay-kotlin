@@ -7,15 +7,21 @@ import java.sql.Timestamp
 
 interface ApiEndpoint {
 
-    @GET("readUser.php")
+    @Headers("Accept: application/json")
+    @GET("pengguna-detail/{id}")
     fun getUser(
-            @Query("email") email: String,
-            @Query("nama") nama: String,
-            @Query("id_user") id_user: String
+            @Path("id") id: String
+    ) : Call<getUserModel>
+
+    @Headers("Accept: application/json")
+    @GET("pengguna-detail-byemail/{email}")
+    fun getUserByEmail(
+            @Path("email") email: String
     ) : Call<getUserModel>
 
     @FormUrlEncoded
-    @POST("createUser.php")
+    @Headers("Accept: application/json")
+    @POST("pengguna-create/")
     fun createUser(
             @Field("nama") nama: String,
             @Field("email") email: String,
@@ -25,54 +31,62 @@ interface ApiEndpoint {
     ): Call<postUserModel>
 
     @FormUrlEncoded
-    @PUT("updateUser.php")
+    @Headers("Accept: application/json")
+    @POST("pengguna-update/{id}/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ")
     fun updateUser(
-            @Field("id_user") id_user: String,
+            @Path("id") id: String,
             @Field("nama") nama: String,
+            @Field("email") email: String,
             @Field("ttl") ttl: String,
             @Field("jenis_kelamin") jenis_kelamin: String,
             @Field("pekerjaan") pekerjaan: String
     ): Call<postUserModel>
 
     @FormUrlEncoded
-    @POST("createHasilDeteksi.php")
+    @Headers("Accept: application/json")
+    @POST("hasildeteksi-create/")
     fun createHasilDeteksi(
-            @Field("id_user") id_user: String,
-            @Field("tanggal") tanggal: String,
+            @Field("pengguna_id") pengguna_id: String,
+            @Field("createdAt") createdAt: String,
             @Field("hasil_hitung") hasil_hitung: String,
-            @Field("id_depresi") id_depresi: String
+            @Field("tingkatdepresi_id") tingkatdepresi_id: String
     ): Call<postDeteksiModel>
 
-    @GET("readHasilDeteksi.php")
+    @Headers("Accept: application/json")
+    @GET("hasildeteksi-detail-by-idpengguna/{pengguna_id}/")
     fun getDeteksi(
-            @Query("id_user") id_user: String
-    ) : Call<getDeteksiModel>
+            @Path("pengguna_id") pengguna_id: String
+    ) : Call<List<getDeteksiModel>>
 
-    @GET("readLastDeteksi.php")
+    @Headers("Accept: application/json")
+    @GET("hasildeteksi-detail-by-recentidpengguna/{pengguna_id}/")
     fun getLastDeteksi(
-            @Query("id_user") id_user: String
+            @Path("pengguna_id") pengguna_id: String
     ) : Call<getDeteksiModel>
 
     @FormUrlEncoded
-    @POST("createPertanyaanJawaban.php")
+    @Headers("Accept: application/json")
+    @POST("historypertanyaanjawaban-create/")
     fun createPertanyaanJawaban(
-            @Field("id_deteksi") id_deteksi: String,
-            @Field("id_pertanyaan") id_pertanyaan: String,
-            @Field("id_jawaban") id_jawaban: String
+            @Field("hasildeteksi_id") hasildeteksi_id: String,
+            @Field("pertanyaan_id") pertanyaan_id: String,
+            @Field("jawaban_id") jawaban_id: String
     ): Call<postPertanyaanJawabanModel>
 
-    @GET("readPenanganan.php")
+    @Headers("Accept: application/json")
+    @GET("penanganan-detail-by-idtingkatdepresi/{tingkatdepresi_id}/")
     fun gePenanganan(
-            @Query("id_depresi") id_depresi: String
+            @Path("tingkatdepresi_id") tingkatdepresi_id: String
     ) : Call<getPenangananModel>
 
-    @GET("readArtikel.php")
+    @GET("artikel-list/")
     fun getArtikel(
-    ) : Call<getArtikelModel>
+    ) : Call<List<getArtikelModel>>
 
-    @GET("readIsiArtikel.php")
+    @Headers("Accept: application/json")
+    @GET("artikel-detail/{id}/")
     fun getIsiArtikel(
-            @Query("id_artikel") id_artikel: String
+            @Path("id") id: String
     ) : Call<getArtikelModel>
     
 }

@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.Task
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 class ProfilActivity : AppCompatActivity() {
 
@@ -38,10 +40,20 @@ class ProfilActivity : AppCompatActivity() {
     private lateinit var recyclerHistory: RecyclerView
     private lateinit var btnEdit: ImageView
     private lateinit var logout:  TextView
+    private lateinit var dialog: AlertDialog
+    private lateinit var inflater: LayoutInflater
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
+        val builder = AlertDialog.Builder(this@ProfilActivity)
+        inflater = this@ProfilActivity.layoutInflater
+
+        builder.setView(inflater.inflate(R.layout.loading_dialog, null))
+        builder.setCancelable(false)
+
+        dialog = builder.create()
+        dialog.show()
 
         namaUser = findViewById(R.id.namaUser)
         ttlUser = findViewById(R.id.ttlUser)
@@ -50,29 +62,46 @@ class ProfilActivity : AppCompatActivity() {
 
         val idUser = intent.getStringExtra("id_user")
 
-        api.getUser("" ,"" , "" + idUser + "").enqueue(object :
-            Callback<getUserModel> {
-
+        api.getUser("" + idUser +"").enqueue(object : Callback<getUserModel> {
             override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
-                if(response.isSuccessful){
-                    val listdata = response.body()!!.user
-
-                    listdata.forEach{
-                        namaUser.setText("${it.nama}")
-                        ttlUser.setText("${it.ttl}")
-                        pekerjaanUser.setText("${it.pekerjaan}")
-                        val gender = "${it.jenis_kelamin}"
-                        if(gender == "Perempuan"){
-                            genderUser.setImageResource(R.drawable.girl)
-                        }else{
-                            genderUser.setImageResource(R.drawable.boy)
-                        }
-
-                    }
+                namaUser.setText("${response.body()?.nama}")
+                ttlUser.setText("${response.body()?.ttl}")
+                pekerjaanUser.setText("${response.body()?.pekerjaan}")
+                val gender = "${response.body()?.jenis_kelamin}"
+                val id_user = "${response.body()?.id}"
+                if(gender == "Perempuan"){
+                    genderUser.setImageResource(R.drawable.girl)
+                }else{
+                    genderUser.setImageResource(R.drawable.boy)
                 }
+                //dialog.dismiss()
             }
 
             override fun onFailure(call: Call<getUserModel>, t: Throwable) {
+                if(t is SocketTimeoutException){
+                    api.getUser("" + idUser +"").enqueue(object : Callback<getUserModel> {
+                        override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
+                            namaUser.setText("${response.body()?.nama}")
+                            ttlUser.setText("${response.body()?.ttl}")
+                            pekerjaanUser.setText("${response.body()?.pekerjaan}")
+                            val gender = "${response.body()?.jenis_kelamin}"
+                            val id_user = "${response.body()?.id}"
+                            if(gender == "Perempuan"){
+                                genderUser.setImageResource(R.drawable.girl)
+                            }else{
+                                genderUser.setImageResource(R.drawable.boy)
+                            }
+                            //dialog.dismiss()
+                        }
+
+                        override fun onFailure(call: Call<getUserModel>, t: Throwable) {
+                            if(t is SocketTimeoutException){
+                                dialog.dismiss()
+                                Toast.makeText(this@ProfilActivity,"timeout", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    })
+                }
             }
         })
 
@@ -112,16 +141,39 @@ class ProfilActivity : AppCompatActivity() {
 
     private fun getHistory(id_user: String){
         api.getDeteksi(id_user).enqueue(object :
-                Callback<getDeteksiModel> {
-            override fun onResponse(call: Call<getDeteksiModel>, response: Response<getDeteksiModel>) {
-                if(response.isSuccessful){
-                    val listData = response.body()!!.deteksi
+                Callback<List<getDeteksiModel>> {
+            override fun onResponse(call: Call<List<getDeteksiModel>>, response: Response<List<getDeteksiModel>>) {
+                if (response.isSuccessful) {
+                    val listData = response.body()!!
                     historyAdapter.setData(listData)
+                    dialog.dismiss()
+
                 }
             }
 
-            override fun onFailure(call: Call<getDeteksiModel>, t: Throwable) {
-                Log.e("history", t.toString())
+            override fun onFailure(call: Call<List<getDeteksiModel>>, t: Throwable) {
+                if(t is SocketTimeoutException){
+                    api.getDeteksi(id_user).enqueue(object :
+                            Callback<List<getDeteksiModel>> {
+                        override fun onResponse(call: Call<List<getDeteksiModel>>, response: Response<List<getDeteksiModel>>) {
+                            if (response.isSuccessful) {
+                                val listData = response.body()!!
+                                historyAdapter.setData(listData)
+                                dialog.dismiss()
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<getDeteksiModel>>, t: Throwable) {
+                            if(t is SocketTimeoutException){
+                                dialog.dismiss()
+                                Toast.makeText(this@ProfilActivity,"timeout", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+
+                    })
+                }
             }
 
 

@@ -1,14 +1,17 @@
 package com.example.areyouokay
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
@@ -24,6 +27,7 @@ import com.google.android.gms.common.util.CollectionUtils.isEmpty
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 const val RC_SIGN_IN = 123
 
@@ -35,6 +39,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var buttonLogin: SignInButton
     private lateinit var test: TextView
     private var sliderHandler = Handler()
+    private lateinit var dialog: AlertDialog
+    private lateinit var inflater: LayoutInflater
 
     private val loginSliderAdapter = LoginSliderAdapter(
             listOf(
@@ -74,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
                 }, 6000)
             }
         })
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
@@ -86,35 +93,61 @@ class LoginActivity : AppCompatActivity() {
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if(acct != null){
+            val builder = AlertDialog.Builder(this@LoginActivity)
+            inflater = this@LoginActivity.layoutInflater
+
+            builder.setView(inflater.inflate(R.layout.loading_dialog, null))
+            builder.setCancelable(false)
+
+            dialog = builder.create()
+            dialog.show()
             val personName = acct.displayName
             val personEmail = acct.email
             val personId = acct.id
 
-
-
-            api.getUser("" + personEmail + "","" + personName + "", "").enqueue(object : Callback<getUserModel> {
+            api.getUserByEmail("" + personEmail +"").enqueue(object : Callback<getUserModel> {
 
                 override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
                     if(response.isSuccessful){
-                        val listdata = response.body()!!.user
-
-                        if (isEmpty(listdata)){
-                            val intent = Intent(this@LoginActivity, FormRegisterActivity::class.java)
-                                intent.putExtra("nama", acct!!.displayName)
-                                intent.putExtra("email", acct!!.email)
-                            startActivity(intent)
-                        }
-                        else {
-                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                            intent.putExtra("nama", acct!!.displayName)
-                            intent.putExtra("email", acct!!.email)
-                            startActivity(intent)
-                        }
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        intent.putExtra("id_user", "${response.body()?.id}")
+                        startActivity(intent)
+                    }
+                    else{
+                        val intent = Intent(this@LoginActivity, FormRegisterActivity::class.java)
+                        intent.putExtra("nama", personName)
+                        intent.putExtra("email", personEmail)
+                        startActivity(intent)
                     }
                 }
 
                 override fun onFailure(call: Call<getUserModel>, t: Throwable) {
-                    Log.e("HomeActivity", t.toString())
+                    if(t is SocketTimeoutException){
+                        api.getUserByEmail("" + personEmail +"").enqueue(object : Callback<getUserModel> {
+
+                            override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
+                                if(response.isSuccessful){
+                                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                    intent.putExtra("id_user", "${response.body()?.id}")
+                                    startActivity(intent)
+                                }
+                                else{
+                                    val intent = Intent(this@LoginActivity, FormRegisterActivity::class.java)
+                                    intent.putExtra("nama", personName)
+                                    intent.putExtra("email", personEmail)
+                                    startActivity(intent)
+                                }
+                            }
+
+                            override fun onFailure(call: Call<getUserModel>, t: Throwable) {
+                                if(t is SocketTimeoutException){
+                                    dialog.dismiss()
+                                    Toast.makeText(this@LoginActivity,"timeout", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                        })
+                    }
                 }
 
             })
@@ -130,30 +163,58 @@ class LoginActivity : AppCompatActivity() {
             try{
                 val account = task.getResult(ApiException::class.java)
 
-                api.getUser("" + account!!.email +"","" + account!!.displayName + "", "").enqueue(object : Callback<getUserModel> {
+                val builder = AlertDialog.Builder(this@LoginActivity)
+                inflater = this@LoginActivity.layoutInflater
+
+                builder.setView(inflater.inflate(R.layout.loading_dialog, null))
+                builder.setCancelable(false)
+
+                dialog = builder.create()
+                dialog.show()
+
+                api.getUserByEmail("" + account!!.email +"").enqueue(object : Callback<getUserModel> {
 
                     override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
                         if(response.isSuccessful){
-                            val listdata = response.body()!!.user
-
-
-                            if (isEmpty(listdata)){
-                                val intent = Intent(this@LoginActivity, FormRegisterActivity::class.java)
-                                intent.putExtra("nama", account!!.displayName)
-                                    intent.putExtra("email", account!!.email)
-                                startActivity(intent)
-                            }
-                            else {
                                 val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                                intent.putExtra("nama", account!!.displayName)
-                                intent.putExtra("email", account!!.email)
+                                intent.putExtra("id_user", "${response.body()?.id}")
                                 startActivity(intent)
-                            }
+                        }
+                        else{
+                            val intent = Intent(this@LoginActivity, FormRegisterActivity::class.java)
+                            intent.putExtra("nama", account!!.displayName)
+                            intent.putExtra("email", account!!.email)
+                            startActivity(intent)
                         }
                     }
 
                     override fun onFailure(call: Call<getUserModel>, t: Throwable) {
-                        Log.e("HomeActivity", t.toString())
+                        if(t is SocketTimeoutException){
+                            api.getUserByEmail("" + account!!.email +"").enqueue(object : Callback<getUserModel> {
+
+                                override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
+                                    if(response.isSuccessful){
+                                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                        intent.putExtra("id_user", "${response.body()?.id}")
+                                        startActivity(intent)
+                                    }
+                                    else{
+                                        val intent = Intent(this@LoginActivity, FormRegisterActivity::class.java)
+                                        intent.putExtra("nama", account!!.displayName)
+                                        intent.putExtra("email", account!!.email)
+                                        startActivity(intent)
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<getUserModel>, t: Throwable) {
+                                    if(t is SocketTimeoutException){
+                                        dialog.dismiss()
+                                        Toast.makeText(this@LoginActivity,"timeout", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+
+                            })
+                        }
                     }
 
                 })

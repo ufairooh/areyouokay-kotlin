@@ -1,7 +1,8 @@
 package com.example.areyouokay.Model
 
 data class postPertanyaanJawabanModel(
-        val id_deteksi: String,
-        val id_pertanyaan: String,
-        val id_jawaban: String
+        val id: Int,
+        val hasildeteksi_id: String,
+        val pertanyaan_id: String,
+        val jawaban_id: String
 )

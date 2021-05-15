@@ -30,12 +30,8 @@ class PenangananActivity : AppCompatActivity() {
         api.gePenanganan("" + idDepresi +"").enqueue(object : Callback<getPenangananModel> {
             override fun onResponse(call: Call<getPenangananModel>, response: Response<getPenangananModel>) {
                 if(response.isSuccessful){
-                    val listdata = response.body()!!.penanganan
-
-                    listdata.forEach{
-                        judul_penanganan.setText("${it.judul}")
-                        isi_penanganan.setText("${it.isi}")
-                    }
+                        judul_penanganan.setText("${response.body()?.judul}")
+                        isi_penanganan.setText("${response.body()?.isi}")
                 }
             }
 

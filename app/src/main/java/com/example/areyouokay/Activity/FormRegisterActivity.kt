@@ -8,6 +8,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.example.areyouokay.API.ApiRetrofit
@@ -16,6 +17,7 @@ import com.example.areyouokay.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,6 +40,8 @@ class FormRegisterActivity : AppCompatActivity() {
     private lateinit var txt_indicator: TextView
     private lateinit var rg: RadioButton
     private lateinit var rj: RadioButton
+    private lateinit var dialog: AlertDialog
+    private lateinit var inflater: LayoutInflater
 
 
 
@@ -69,6 +73,14 @@ class FormRegisterActivity : AppCompatActivity() {
                 builder.setMessage("Apakah data yang kamu isikan sudah benar?")
                         .setPositiveButton("IYA", {
                             dialogInterface, i ->
+                            val builder = AlertDialog.Builder(this@FormRegisterActivity)
+                            inflater = this@FormRegisterActivity.layoutInflater
+
+                            builder.setView(inflater.inflate(R.layout.loading_dialog, null))
+                            builder.setCancelable(false)
+
+                            dialog = builder.create()
+                            dialog.show()
                             api.createUser(
                                     "" + nama + "",
                                     ""  + email + "",
@@ -77,11 +89,61 @@ class FormRegisterActivity : AppCompatActivity() {
                                     "" + rs_job + ""
                             ).enqueue(object : Callback<postUserModel>{
                                 override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
-                                    intent();
+                                    if(response.isSuccessful){
+                                        val iduser = "${response.body()?.id}"
+                                        intent(iduser);
+                                    }else{
+                                        val builder = AlertDialog.Builder(this@FormRegisterActivity)
+                                        builder.setMessage(response.code().toString())
+                                                .setPositiveButton("else", {
+                                                    dialogInterface, i ->
+                                                })
+                                                .setNegativeButton("TIDAK", {
+                                                    dialogInterface, i ->
+                                                })
+                                        val dialog = builder.create()
+                                        dialog.show()
+                                    }
+
                                 }
 
                                 override fun onFailure(call: Call<postUserModel>, t: Throwable) {
-                                    Log.e("FormRegisterActivity", t.toString())
+                                    if(t is SocketTimeoutException){
+                                        api.createUser(
+                                                "" + nama + "",
+                                                ""  + email + "",
+                                                "" + rs_tglLahir + "",
+                                                "" + rs_gender + "",
+                                                "" + rs_job + ""
+                                        ).enqueue(object : Callback<postUserModel>{
+                                            override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
+                                                if(response.isSuccessful){
+                                                    val iduser = "${response.body()?.id}"
+                                                    intent(iduser);
+                                                }else{
+                                                    val builder = AlertDialog.Builder(this@FormRegisterActivity)
+                                                    builder.setMessage(response.code().toString())
+                                                            .setPositiveButton("else", {
+                                                                dialogInterface, i ->
+                                                            })
+                                                            .setNegativeButton("TIDAK", {
+                                                                dialogInterface, i ->
+                                                            })
+                                                    val dialog = builder.create()
+                                                    dialog.show()
+                                                }
+
+                                            }
+
+                                            override fun onFailure(call: Call<postUserModel>, t: Throwable) {
+                                                if(t is SocketTimeoutException){
+                                                    dialog.dismiss()
+                                                    Toast.makeText(this@FormRegisterActivity,"timeout", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
+
+                                        })
+                                    }
                                 }
 
                             })
@@ -126,12 +188,9 @@ class FormRegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun intent(){
-        val namaUser = intent.getStringExtra("nama")
-        val emailUser = intent.getStringExtra("email")
+    private fun intent(id: String){
         val intent = Intent(this, HomeActivity::class.java)
-        intent.putExtra("nama", namaUser)
-        intent.putExtra("email", emailUser)
+        intent.putExtra("id_user", id)
         startActivity(intent)
         finish()
     }

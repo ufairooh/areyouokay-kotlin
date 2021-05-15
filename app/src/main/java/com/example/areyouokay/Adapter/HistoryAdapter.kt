@@ -8,8 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.areyouokay.Model.getDeteksiModel
 import com.example.areyouokay.R
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
-class HistoryAdapter(val history: ArrayList<getDeteksiModel.Data>): RecyclerView.Adapter<HistoryAdapter.ViewHolder>(){
+class HistoryAdapter(val history: ArrayList<getDeteksiModel>): RecyclerView.Adapter<HistoryAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
             LayoutInflater.from(parent.context)
                     .inflate(R.layout.adapter_history, parent, false)
@@ -17,8 +23,16 @@ class HistoryAdapter(val history: ArrayList<getDeteksiModel.Data>): RecyclerView
 
     override fun onBindViewHolder(holder: HistoryAdapter.ViewHolder, position: Int) {
         val data = history[position]
-        holder.timestamp.text = data.tanggal
-        val depresi = data.id_depresi
+        val tanggal = data.createdAt
+        val input = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
+        val output = DateTimeFormatter.ofPattern("dd-MM-yyyy' 'HH:mm' '")
+        val tz = TimeZone.getTimeZone("Asia/Jakarta")
+        val date = LocalDateTime.parse(tanggal, input).atZone(ZoneId.of("UTC"))
+        val tgl = date.withZoneSameInstant(ZoneId.of("Asia/Jakarta"))
+
+        val formatDate = output.format(tgl)
+        holder.timestamp.text = formatDate
+        val depresi = data.tingkatdepresi_id
         if (depresi == "1"){
             holder.tingkat_depresi.text = "Tidak Depresi"
             holder.icon_depresi.setImageResource(R.drawable.depresi1)
@@ -46,7 +60,7 @@ class HistoryAdapter(val history: ArrayList<getDeteksiModel.Data>): RecyclerView
         val icon_depresi = view.findViewById<ImageView>(R.id.icon_depresi)
     }
 
-    public fun setData(data: List<getDeteksiModel.Data>){
+    public fun setData(data: List<getDeteksiModel>){
         history.clear()
         history.addAll(data)
         notifyDataSetChanged()

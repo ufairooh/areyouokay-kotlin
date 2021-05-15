@@ -13,7 +13,7 @@ import com.example.areyouokay.Model.getArtikelModel
 import com.example.areyouokay.Model.getDeteksiModel
 import com.example.areyouokay.R
 
-class ArtikelAdapter(val artikel: ArrayList<getArtikelModel.Data>): RecyclerView.Adapter<ArtikelAdapter.ViewHolder>(){
+class ArtikelAdapter(val artikel: ArrayList<getArtikelModel>): RecyclerView.Adapter<ArtikelAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
               LayoutInflater.from(parent.context)
                     .inflate(R.layout.adapter_artikel, parent, false)
@@ -25,7 +25,7 @@ class ArtikelAdapter(val artikel: ArrayList<getArtikelModel.Data>): RecyclerView
         holder.judulArtikel.text = data.judul
         holder.artikel.setOnClickListener {
             val intent = Intent(holder.artikel.context, IsiArtikelActivity::class.java)
-            intent.putExtra("id_artikel", data.id_artikel)
+            intent.putExtra("id_artikel", data.id)
             holder.artikel.context.startActivity(intent)
 
         }
@@ -38,7 +38,7 @@ class ArtikelAdapter(val artikel: ArrayList<getArtikelModel.Data>): RecyclerView
         val artikel = view.findViewById<LinearLayout>(R.id.artikel)
     }
 
-    public fun setData(data: List<getArtikelModel.Data>){
+    public fun setData(data: List<getArtikelModel>){
         artikel.clear()
         artikel.addAll(data)
         notifyDataSetChanged()

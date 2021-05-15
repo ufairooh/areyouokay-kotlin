@@ -18,7 +18,7 @@ class ApiRetrofit {
                 .build()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.3/areyouokay/")
+                .baseUrl("http://are-you-okay.herokuapp.com/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

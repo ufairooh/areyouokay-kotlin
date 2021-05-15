@@ -2132,112 +2132,6 @@
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frame_soal_21"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="50dp">
-
-                    <TextView
-                        android:id="@+id/soal_21"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="80dp"
-                        android:gravity="center"
-                        android:text="@string/P021"
-                        android:textColor="@color/darkBlue"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/jwb_soal_21"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:orientation="vertical">
-
-                        <RadioGroup
-                            android:id="@+id/rg21"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="100dp"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/jwb_a_21"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/bg_jawaban"
-                                android:gravity="center"
-                                android:paddingRight="35dp"
-                                android:text="@string/jawab1"
-                                android:textColor="@drawable/jawaban_text"
-                                app:buttonTint="#00000000"/>
-
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/jwb_b_21"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/bg_jawaban"
-                                android:gravity="center"
-                                android:paddingRight="35dp"
-                                android:text="@string/jawab2"
-                                android:textColor="@drawable/jawaban_text"
-                                app:buttonTint="#00000000"/>
-
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/jwb_c_21"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/bg_jawaban"
-                                android:gravity="center"
-                                android:paddingRight="35dp"
-                                android:text="@string/jawab3"
-                                android:textColor="@drawable/jawaban_text"
-                                app:buttonTint="#00000000"/>
-
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/jwb_d_21"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/bg_jawaban"
-                                android:gravity="center"
-                                android:paddingRight="35dp"
-                                android:text="@string/jawab4"
-                                android:textColor="@drawable/jawaban_text"
-                                app:buttonTint="#00000000"/>
-
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/jwb_e_21"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/bg_jawaban"
-                                android:gravity="center"
-                                android:paddingRight="35dp"
-                                android:text="@string/jawab5"
-                                android:textColor="@drawable/jawaban_text"
-                                app:buttonTint="#00000000" />
-                        </RadioGroup>
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </RelativeLayout>
-
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/Selesai"
                     android:layout_width="100dp"
@@ -2251,6 +2145,8 @@
                     android:textStyle="bold"
                     android:backgroundTint="@color/green"/>
             </FrameLayout>
+
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

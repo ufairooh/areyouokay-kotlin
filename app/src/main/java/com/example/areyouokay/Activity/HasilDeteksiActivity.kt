@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.areyouokay.API.ApiRetrofit
 import com.example.areyouokay.R
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class HasilDeteksiActivity : AppCompatActivity() {
 
@@ -37,7 +39,10 @@ class HasilDeteksiActivity : AppCompatActivity() {
         val tanggal = intent.getStringExtra("tanggal")
 
         val keyakinan = hasil_hitung * 100
-        keyakinanDepresi.setText(keyakinan.toString() + "%")
+        val df = DecimalFormat("#.###")
+        df.roundingMode = RoundingMode.CEILING
+        val hasilformat = df.format(keyakinan)
+        keyakinanDepresi.setText(hasilformat.toString() + "%")
 
         if(id_depresi == "1"){
             iconDepresi.setImageResource(R.drawable.depresi1)

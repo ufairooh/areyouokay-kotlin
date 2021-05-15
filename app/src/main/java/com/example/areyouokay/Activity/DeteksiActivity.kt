@@ -7,6 +7,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.example.areyouokay.API.ApiRetrofit
@@ -17,6 +18,7 @@ import com.example.areyouokay.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 import java.sql.Timestamp
 import java.util.*
 import kotlin.collections.ArrayList
@@ -43,7 +45,6 @@ class DeteksiActivity : AppCompatActivity() {
     private lateinit var frame_soal_18: FrameLayout
     private lateinit var frame_soal_19: FrameLayout
     private lateinit var frame_soal_20: FrameLayout
-    private lateinit var frame_soal_21: FrameLayout
     private lateinit var btn_prev: Button
     private lateinit var btn_next: Button
     private lateinit var txt_indicator: TextView
@@ -67,12 +68,13 @@ class DeteksiActivity : AppCompatActivity() {
     private lateinit var rg18: RadioGroup
     private lateinit var rg19: RadioGroup
     private lateinit var rg20: RadioGroup
-    private lateinit var rg21: RadioGroup
     private lateinit var Selesai: Button
-    private var rg = arrayOfNulls<RadioGroup>(21)
+    private var rg = arrayOfNulls<RadioGroup>(20)
     private var cfPakar = Bobot.PAKAR
     private var jawaban = Bobot.JAWABAN
     private val api by lazy { ApiRetrofit().endpoint }
+    private lateinit var dialog: AlertDialog
+    private lateinit var inflater: LayoutInflater
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -183,7 +185,7 @@ class DeteksiActivity : AppCompatActivity() {
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 // Depresi Berat
-                4, 5, 8, 12, 20 -> {
+                4, 5, 8, 12 -> {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
@@ -199,11 +201,19 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiRingan = 0.0
                     totalDepresiRingan += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiRingan = Math.round((cfPakar[21] * totalDepresiRingan) * 100.0) / 100.0
+                    val txtTotalDepresiRingan = Math.round((cfPakar[20] * totalDepresiRingan) * 100.0) / 100.0
                     groupJawabanUserDepresiRingan.add(totalDepresiRingan)
                     groupDepresiRinganList.add(txtTotalDepresiRingan)
                 }
                 1 -> {
+                    var totalDepresiSedang = 0.0
+                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
+
+                    val txtTotalDepresiSedang = Math.round((cfPakar[21] * totalDepresiSedang) * 100.0) / 100.0
+                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    groupDepresiSedangList.add(txtTotalDepresiSedang)
+                }
+                6 -> {
                     var totalDepresiSedang = 0.0
                     totalDepresiSedang += nilaiRB[i]!!.toDouble()
 
@@ -211,19 +221,11 @@ class DeteksiActivity : AppCompatActivity() {
                     groupJawabanUserDepresiSedang.add(totalDepresiSedang)
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
-                6 -> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[23] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
-                    groupDepresiSedangList.add(txtTotalDepresiSedang)
-                }
                 7 -> {
                         var totalDepresiBerat = 0.0
                         totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                        val txtTotalDepresiBerat = Math.round((cfPakar[24] * totalDepresiBerat) * 100.0) / 100.0
+                        val txtTotalDepresiBerat = Math.round((cfPakar[23] * totalDepresiBerat) * 100.0) / 100.0
                         groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                         groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -231,7 +233,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiBerat = Math.round((cfPakar[25] * totalDepresiBerat) * 100.0) / 100.0
+                    val txtTotalDepresiBerat = Math.round((cfPakar[24] * totalDepresiBerat) * 100.0) / 100.0
                     groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -239,7 +241,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiBerat = Math.round((cfPakar[26] * totalDepresiBerat) * 100.0) / 100.0
+                    val txtTotalDepresiBerat = Math.round((cfPakar[25] * totalDepresiBerat) * 100.0) / 100.0
                     groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -247,7 +249,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiSedang = 0.0
                     totalDepresiSedang += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiSedang = Math.round((cfPakar[27] * totalDepresiSedang) * 100.0) / 100.0
+                    val txtTotalDepresiSedang = Math.round((cfPakar[26] * totalDepresiSedang) * 100.0) / 100.0
                     groupJawabanUserDepresiSedang.add(totalDepresiSedang)
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
@@ -255,7 +257,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiSedang = 0.0
                     totalDepresiSedang += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiSedang = Math.round((cfPakar[28] * totalDepresiSedang) * 100.0) / 100.0
+                    val txtTotalDepresiSedang = Math.round((cfPakar[27] * totalDepresiSedang) * 100.0) / 100.0
                     groupJawabanUserDepresiSedang.add(totalDepresiSedang)
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
@@ -263,7 +265,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiRingan = 0.0
                     totalDepresiRingan += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiRingan = Math.round((cfPakar[29] * totalDepresiRingan) * 100.0) / 100.0
+                    val txtTotalDepresiRingan = Math.round((cfPakar[28] * totalDepresiRingan) * 100.0) / 100.0
                     groupJawabanUserDepresiRingan.add(totalDepresiRingan)
                     groupDepresiRinganList.add(txtTotalDepresiRingan)
                 }
@@ -275,7 +277,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiSedang = 0.0
                     totalDepresiSedang += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiSedang = Math.round((cfPakar[30] * totalDepresiSedang) * 100.0) / 100.0
+                    val txtTotalDepresiSedang = Math.round((cfPakar[29] * totalDepresiSedang) * 100.0) / 100.0
                     groupJawabanUserDepresiSedang.add(totalDepresiSedang)
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
@@ -283,7 +285,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiBerat = Math.round((cfPakar[31] * totalDepresiBerat) * 100.0) / 100.0
+                    val txtTotalDepresiBerat = Math.round((cfPakar[30] * totalDepresiBerat) * 100.0) / 100.0
                     groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -291,7 +293,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiBerat = Math.round((cfPakar[32] * totalDepresiBerat) * 100.0) / 100.0
+                    val txtTotalDepresiBerat = Math.round((cfPakar[31] * totalDepresiBerat) * 100.0) / 100.0
                     groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -299,7 +301,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiBerat = Math.round((cfPakar[33] * totalDepresiBerat) * 100.0) / 100.0
+                    val txtTotalDepresiBerat = Math.round((cfPakar[32] * totalDepresiBerat) * 100.0) / 100.0
                     groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -311,7 +313,7 @@ class DeteksiActivity : AppCompatActivity() {
                     var totalDepresiBerat = 0.0
                     totalDepresiBerat += nilaiRB[i]!!.toDouble()
 
-                    val txtTotalDepresiBerat = Math.round((cfPakar[34] * totalDepresiBerat) * 100.0) / 100.0
+                    val txtTotalDepresiBerat = Math.round((cfPakar[33] * totalDepresiBerat) * 100.0) / 100.0
                     groupJawabanUserDepresiBerat.add(totalDepresiBerat)
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
@@ -367,6 +369,15 @@ class DeteksiActivity : AppCompatActivity() {
 
     private fun saveHasil(id_depresi: Int, getFinalValues: Double){
 
+        val builder = AlertDialog.Builder(this@DeteksiActivity)
+        inflater = this@DeteksiActivity.layoutInflater
+
+        builder.setView(inflater.inflate(R.layout.loading_dialog, null))
+        builder.setCancelable(false)
+
+        dialog = builder.create()
+        dialog.show()
+
         val idUser = intent.getStringExtra("id_user")
         val tanggal = Timestamp(System.currentTimeMillis())
 
@@ -378,10 +389,8 @@ class DeteksiActivity : AppCompatActivity() {
         ).enqueue(object : Callback<postDeteksiModel> {
             override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
                 //intent(idUser, getFinalValues, id_depresi, tanggal)
-                val listdata = response.body()!!.id_deteksi
-                listdata.forEach{
-                    val id_deteksi = "${it.id_deteksi}"
-                    for (i in 0..20){
+                    val id_deteksi = "${response.body()?.id}"
+                    for (i in 0..19){
                         val id_pertanyaan = i + 1
                         val nilai = arrayOfNulls<Int>(rg.size)
 
@@ -412,23 +421,122 @@ class DeteksiActivity : AppCompatActivity() {
                         }
                         api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                             override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
-
+                                if(response.isSuccessful){
+                                    intent(idUser, getFinalValues, id_depresi, tanggal)
+                                }
                             }
 
                             override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
-                                Log.e("DeteksiActivity", t.toString())
+                                if(t is SocketTimeoutException){
+                                    api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+                                        override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
+                                            if(response.isSuccessful){
+                                                intent(idUser, getFinalValues, id_depresi, tanggal)
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
+                                            if(t is SocketTimeoutException){
+                                                dialog.dismiss()
+                                                Toast.makeText(this@DeteksiActivity,"timeout", Toast.LENGTH_LONG).show()
+                                            }
+                                        }
+
+                                    })
+                                }
                             }
 
                         })
                     }
-                    intent(idUser, getFinalValues, id_depresi, tanggal)
-                }
+
+
 
 
             }
 
             override fun onFailure(call: Call<postDeteksiModel>, t: Throwable) {
-                Log.e("DeteksiActivity2", t.toString())
+                if(t is SocketTimeoutException){
+                    api.createHasilDeteksi(
+                            "" + idUser + "",
+                            ""  + tanggal + "",
+                            "" + getFinalValues + "",
+                            "" + id_depresi + ""
+                    ).enqueue(object : Callback<postDeteksiModel> {
+                        override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
+                            //intent(idUser, getFinalValues, id_depresi, tanggal)
+                            val id_deteksi = "${response.body()?.id}"
+                            for (i in 0..19){
+                                val id_pertanyaan = i + 1
+                                val nilai = arrayOfNulls<Int>(rg.size)
+
+                                rg.indices.forEach { i ->
+                                    val jwbA = rg[i]?.getChildAt(0) as RadioButton
+                                    val jwbB = rg[i]?.getChildAt(1) as RadioButton
+                                    val jwbC = rg[i]?.getChildAt(2) as RadioButton
+                                    val jwbD = rg[i]?.getChildAt(3) as RadioButton
+                                    val jwbE = rg[i]?.getChildAt(4) as RadioButton
+
+                                    when {
+                                        jwbA.isChecked -> {
+                                            nilai[i] = 1
+                                        }
+                                        jwbB.isChecked -> {
+                                            nilai[i] = 2
+                                        }
+                                        jwbC.isChecked -> {
+                                            nilai[i] = 3
+                                        }
+                                        jwbD.isChecked -> {
+                                            nilai[i] = 4
+                                        }
+                                        jwbE.isChecked -> {
+                                            nilai[i] = 5
+                                        }
+                                    }
+                                }
+                                api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+                                    override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
+                                        if(response.isSuccessful){
+                                            intent(idUser, getFinalValues, id_depresi, tanggal)
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
+                                        if(t is SocketTimeoutException){
+                                            api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+                                                override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
+                                                    if(response.isSuccessful){
+                                                        intent(idUser, getFinalValues, id_depresi, tanggal)
+                                                    }
+                                                }
+
+                                                override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
+                                                    if(t is SocketTimeoutException){
+                                                        dialog.dismiss()
+                                                        Toast.makeText(this@DeteksiActivity,"timeout", Toast.LENGTH_LONG).show()
+                                                    }
+                                                }
+
+                                            })
+                                        }
+                                    }
+
+                                })
+                            }
+
+
+
+
+                        }
+
+                        override fun onFailure(call: Call<postDeteksiModel>, t: Throwable) {
+                            if(t is SocketTimeoutException){
+                                dialog.dismiss()
+                                Toast.makeText(this@DeteksiActivity,"timeout", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    })
+                }
             }
         })
     }
@@ -507,7 +615,6 @@ class DeteksiActivity : AppCompatActivity() {
         frame_soal_18 = findViewById(R.id.frame_soal_18)
         frame_soal_19 = findViewById(R.id.frame_soal_19)
         frame_soal_20 = findViewById(R.id.frame_soal_20)
-        frame_soal_21 = findViewById(R.id.frame_soal_21)
 
 
         val frameList = arrayOf(
@@ -530,8 +637,7 @@ class DeteksiActivity : AppCompatActivity() {
                 frame_soal_17,
                 frame_soal_18,
                 frame_soal_19,
-                frame_soal_20,
-                frame_soal_21
+                frame_soal_20
         )
 
         btn_prev = findViewById(R.id.btn_prev)
@@ -603,7 +709,6 @@ class DeteksiActivity : AppCompatActivity() {
         rg18 = findViewById(R.id.rg18)
         rg19 = findViewById(R.id.rg19)
         rg20 = findViewById(R.id.rg20)
-        rg21 = findViewById(R.id.rg21)
 
 
         return when (index) {
@@ -627,7 +732,6 @@ class DeteksiActivity : AppCompatActivity() {
             17 -> rg18.checkedRadioButtonId != -1
             18 -> rg19.checkedRadioButtonId != -1
             19 -> rg20.checkedRadioButtonId != -1
-            20 -> rg21.checkedRadioButtonId != -1
             else -> false
 
         }
