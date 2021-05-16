@@ -100,12 +100,6 @@ class DeteksiActivity : AppCompatActivity() {
     }
 
     internal fun onSubmit() {
-        // jawaban user
-        val groupJawabanUserTidakDepresi = ArrayList<Double>()
-        val groupJawabanUserDepresiRingan = ArrayList<Double>()
-        val groupJawabanUserDepresiSedang = ArrayList<Double>()
-        val groupJawabanUserDepresiBerat = ArrayList<Double>()
-
         // cf sekuensial
         val groupTidakDepresiList = ArrayList<Double>()
         val groupDepresiRinganList = ArrayList<Double>()
@@ -113,7 +107,7 @@ class DeteksiActivity : AppCompatActivity() {
         val groupDepresiBeratList = ArrayList<Double>()
 
 
-        // semua hasil cf combine per emosi
+        // hasil cf
         val finalCf = ArrayList<Double>(4)
 
         // radio button untuk deteksi depresi
@@ -150,47 +144,25 @@ class DeteksiActivity : AppCompatActivity() {
                 }
             }
 
-            //val soal: IntArray = intArrayOf(i)
-            //val jawab: IntArray = intArrayOf(nilai[i]!!)
-            //val soal_jawab: Array<IntArray> = arrayOf(soal, jawab)
-            //Log.e("soal, jawab:", Array.toString(soal_jawab))
-            //Log.e("Jawaban $i", nilai[i].toString())
-
             when (i) {
                 // Tidak Depresi
                 0, 3, 19 -> {
-                    var totalTidakDepresi = 0.0
-                    totalTidakDepresi += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalTidakDepresi = Math.round((cfPakar[i] * totalTidakDepresi) * 100.0) / 100.0
-                    groupJawabanUserTidakDepresi.add(totalTidakDepresi)
+                    val txtTotalTidakDepresi = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupTidakDepresiList.add(txtTotalTidakDepresi)
                 }
                 // Depresi Ringan
                 1, 6, 11, 15, 16, 17, 18 -> {
-                    var totalDepresiRingan = 0.0
-                    totalDepresiRingan += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiRingan = Math.round((cfPakar[i] * totalDepresiRingan) * 100.0) / 100.0
-                    groupJawabanUserDepresiRingan.add(totalDepresiRingan)
+                    val txtTotalDepresiRingan = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupDepresiRinganList.add(txtTotalDepresiRingan)
                 }
                 // Depresi Sedang
                 2, 7, 9, 10, 13, 14-> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[i] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    val txtTotalDepresiSedang = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 // Depresi Berat
                 4, 5, 8, 12 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[i] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
             }
@@ -198,75 +170,39 @@ class DeteksiActivity : AppCompatActivity() {
             //OVERRIDE
             when (i) {
                 0 -> {
-                    var totalDepresiRingan = 0.0
-                    totalDepresiRingan += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiRingan = Math.round((cfPakar[20] * totalDepresiRingan) * 100.0) / 100.0
-                    groupJawabanUserDepresiRingan.add(totalDepresiRingan)
+                    val txtTotalDepresiRingan = cfPakar[20] * nilaiRB[i]!!.toDouble()
                     groupDepresiRinganList.add(txtTotalDepresiRingan)
                 }
                 1 -> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[21] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    val txtTotalDepresiSedang = cfPakar[21] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 6 -> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[22] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    val txtTotalDepresiSedang = cfPakar[22] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 7 -> {
-                        var totalDepresiBerat = 0.0
-                        totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                        val txtTotalDepresiBerat = Math.round((cfPakar[23] * totalDepresiBerat) * 100.0) / 100.0
-                        groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                        val txtTotalDepresiBerat = cfPakar[23] * nilaiRB[i]!!.toDouble()
                         groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
                 9 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[24] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[24] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
                 10 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[25] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[25] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
                 16 -> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[26] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    val txtTotalDepresiSedang = cfPakar[26] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 17 -> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[27] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    val txtTotalDepresiSedang = cfPakar[27] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 19 -> {
-                    var totalDepresiRingan = 0.0
-                    totalDepresiRingan += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiRingan = Math.round((cfPakar[28] * totalDepresiRingan) * 100.0) / 100.0
-                    groupJawabanUserDepresiRingan.add(totalDepresiRingan)
+                    val txtTotalDepresiRingan = cfPakar[28] * nilaiRB[i]!!.toDouble()
                     groupDepresiRinganList.add(txtTotalDepresiRingan)
                 }
             }
@@ -274,35 +210,19 @@ class DeteksiActivity : AppCompatActivity() {
             //override
             when(i){
                 0 -> {
-                    var totalDepresiSedang = 0.0
-                    totalDepresiSedang += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiSedang = Math.round((cfPakar[29] * totalDepresiSedang) * 100.0) / 100.0
-                    groupJawabanUserDepresiSedang.add(totalDepresiSedang)
+                    val txtTotalDepresiSedang = cfPakar[29] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 1 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[30] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[30] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
                 6 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[31] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[31] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
                 17 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[32] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[32] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
             }
@@ -310,21 +230,17 @@ class DeteksiActivity : AppCompatActivity() {
             //override
             when(i){
                 0 -> {
-                    var totalDepresiBerat = 0.0
-                    totalDepresiBerat += nilaiRB[i]!!.toDouble()
-
-                    val txtTotalDepresiBerat = Math.round((cfPakar[33] * totalDepresiBerat) * 100.0) / 100.0
-                    groupJawabanUserDepresiBerat.add(totalDepresiBerat)
+                    val txtTotalDepresiBerat = cfPakar[33] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
             }
         }
 
-        // store final CF Combine
-        var cfCombineTidakDepresi = Math.round(getCfCombine(groupTidakDepresiList) * 10000.0) / 10000.0
-        var cfCombineDepresiRingan = Math.round(getCfCombine(groupDepresiRinganList) * 10000.0) / 10000.0
-        var cfCombineDepresiSedang = Math.round(getCfCombine(groupDepresiSedangList) * 10000.0) / 10000.0
-        var cfCombineDepresiBerat = Math.round(getCfCombine(groupDepresiBeratList) * 10000.0) / 10000.0
+
+        var cfCombineTidakDepresi = getCfCombine(groupTidakDepresiList)
+        var cfCombineDepresiRingan = getCfCombine(groupDepresiRinganList)
+        var cfCombineDepresiSedang = getCfCombine(groupDepresiSedangList)
+        var cfCombineDepresiBerat = getCfCombine(groupDepresiBeratList)
 
         finalCf.add(cfCombineTidakDepresi)
         finalCf.add(cfCombineDepresiRingan)
@@ -333,35 +249,9 @@ class DeteksiActivity : AppCompatActivity() {
 
         val largestValue = finalCf.max()
         val hasilDepresi = finalCf.indexOf(largestValue)
-        val getDepresi = getTingkatDepresi(hasilDepresi)
+        val id = hasilDepresi + 1
 
-
-        when (getDepresi) {
-            "Tidak Depresi" -> {
-                var getFinalValues = finalCf[0].toDouble()
-                var id_depresi = 1
-                saveHasil(id_depresi, getFinalValues)
-
-            }
-
-            "Depresi Ringan" -> {
-                var getFinalValues = finalCf[1].toDouble()
-                var id_depresi = 2
-                saveHasil(id_depresi, getFinalValues)
-            }
-
-            "Depresi Sedang" -> {
-                var getFinalValues = finalCf[2].toDouble()
-                var id_depresi = 3
-                saveHasil(id_depresi, getFinalValues)
-            }
-
-            "Depresi Berat" -> {
-                var getFinalValues = finalCf[3].toDouble()
-                var id_depresi = 4
-                saveHasil(id_depresi, getFinalValues)
-            }
-        }
+        saveHasil(id, largestValue!!.toDouble())
 
 
 
@@ -554,40 +444,18 @@ class DeteksiActivity : AppCompatActivity() {
         var CF = 0.0
         for (i in 0 until param.size) {
             when (i) {
-                //CF 1
                 0 -> {
                     CF = param[i]
                 }
 
                 // CF Selanjutnya
                 else -> {
-                    // CF = CF + (param[i] * (1 - CF))
                     CF += (param[i] * (1 - CF))
                 }
             }
         }
 
         return CF
-    }
-
-    private fun getTingkatDepresi(number: Int): String {
-        var tingkatDepresi = ""
-        when (number) {
-            0 -> {
-                tingkatDepresi = "Tidak Depresi"
-            }
-            1 -> {
-                tingkatDepresi = "Depresi Ringan"
-            }
-            2 -> {
-                tingkatDepresi = "Depresi Sedang"
-            }
-            3 -> {
-                tingkatDepresi = "Depresi Berat"
-            }
-        }
-
-        return tingkatDepresi
     }
 
     @SuppressLint("SetTextI18n")

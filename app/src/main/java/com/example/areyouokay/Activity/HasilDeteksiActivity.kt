@@ -34,9 +34,8 @@ class HasilDeteksiActivity : AppCompatActivity() {
         kesimpulan = findViewById(R.id.kesimpulan)
 
         val id_user = intent.getStringExtra("id_user")
-        val hasil_hitung = intent.getStringExtra("hasil_hitung").toDouble()
+        val hasil_hitung = intent.getStringExtra("hasil_hitung")!!.toDouble()
         val id_depresi = intent.getStringExtra("id_depresi")
-        val tanggal = intent.getStringExtra("tanggal")
 
         val keyakinan = hasil_hitung * 100
         val df = DecimalFormat("#.###")
@@ -48,7 +47,7 @@ class HasilDeteksiActivity : AppCompatActivity() {
             iconDepresi.setImageResource(R.drawable.depresi1)
             tingkatDepresi.setText("Tidak Depresi")
             btnPenanganan.setText("Artikel Depresi")
-            kesimpulan.setText(keyakinan.toString() + "% kemungkinan kamu tidak mengalami depresi. " +
+            kesimpulan.setText(hasilformat.toString() + "% kemungkinan kamu tidak mengalami depresi. " +
                     "Namun, jangan senang dulu ya karena meskipun saat ini kamu tidak mengalami depresi, suatu saat kamu ada kemungkinan mengalami depresi." +
                     " Yuk cek artikel mengenai depresi agar kamu lebih memahami tentang depresi")
             intentArtikel(id_user)
@@ -57,7 +56,7 @@ class HasilDeteksiActivity : AppCompatActivity() {
         else if(id_depresi == "2"){
             iconDepresi.setImageResource(R.drawable.depresi2)
             tingkatDepresi.setText("Depresi Ringan")
-            kesimpulan.setText(keyakinan.toString() + "% kemungkinan kamu mengalami depresi ringan. " +
+            kesimpulan.setText(hasilformat.toString() + "% kemungkinan kamu mengalami depresi ringan. " +
                     "Depresi ringan jika tidak ditangani dapat menyebabkan depresi sedang bahkan depresi berat." +
                     " Untuk menangani depresi ringan yuk cek tipsnya dengan masuk ke halaman penanganan depresi!")
             intentPenanganan("2", id_user)
@@ -65,7 +64,7 @@ class HasilDeteksiActivity : AppCompatActivity() {
         else if (id_depresi == "3"){
             iconDepresi.setImageResource(R.drawable.depresi3)
             tingkatDepresi.setText("Depresi Sedang")
-            kesimpulan.setText(keyakinan.toString() + "% kemungkinan kamu mengalami depresi sedang. " +
+            kesimpulan.setText(hasilformat.toString() + "% kemungkinan kamu mengalami depresi sedang. " +
                     "Depresi sedang jika tidak ditangani dapat menyebabkan depresi berat." +
                     " Untuk menangani depresi sedang yuk cek tipsnya dengan masuk ke halaman penanganan depresi!")
             intentPenanganan("3", id_user)
@@ -73,7 +72,7 @@ class HasilDeteksiActivity : AppCompatActivity() {
         else{
             iconDepresi.setImageResource(R.drawable.depresi4)
             tingkatDepresi.setText("Depresi Berat")
-            kesimpulan.setText(keyakinan.toString() + "% kemungkinan kamu mengalami depresi berat. " +
+            kesimpulan.setText(hasilformat.toString() + "% kemungkinan kamu mengalami depresi berat. " +
                     "Depresi berat akan sangat berbahaya. " +
                     " Untuk menangani depresi berat kamu bisa menghubungi psikolog dan kamu bisa cek tips untuk menanganinnya dengan masuk ke halaman penanganan depresi!")
             intentPenanganan("4", id_user)
