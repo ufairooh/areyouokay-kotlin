@@ -278,7 +278,6 @@ class DeteksiActivity : AppCompatActivity() {
                 "" + id_depresi + ""
         ).enqueue(object : Callback<postDeteksiModel> {
             override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
-                //intent(idUser, getFinalValues, id_depresi, tanggal)
                     val id_deteksi = "${response.body()?.id}"
                     for (i in 0..19){
                         val id_pertanyaan = i + 1

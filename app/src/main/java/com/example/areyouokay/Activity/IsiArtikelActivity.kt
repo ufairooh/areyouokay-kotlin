@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.areyouokay.API.ApiRetrofit
 import com.example.areyouokay.Model.getArtikelModel
 import com.example.areyouokay.Model.getUserModel
@@ -25,6 +27,7 @@ class IsiArtikelActivity : AppCompatActivity() {
     private lateinit var isi_artikel: TextView
     private lateinit var dialog: AlertDialog
     private lateinit var inflater: LayoutInflater
+    private lateinit var img_artikel: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,7 @@ class IsiArtikelActivity : AppCompatActivity() {
 
         judulArtikel = findViewById(R.id.judulArtikel)
         isi_artikel = findViewById(R.id.isi_artikel)
+        img_artikel = findViewById(R.id.img_artikel)
 
         val id_artikel = intent.getStringExtra("id_artikel")
 
@@ -49,6 +53,7 @@ class IsiArtikelActivity : AppCompatActivity() {
                 if(response.isSuccessful){
                         judulArtikel.setText("${response.body()?.judul}")
                         isi_artikel.setText("${response.body()?.isi}")
+                        Glide.with(this@IsiArtikelActivity).load("https://res.cloudinary.com/dddl4nlew/${response.body()?.image}").into(img_artikel)
                     dialog.dismiss()
                 }
             }
@@ -60,6 +65,7 @@ class IsiArtikelActivity : AppCompatActivity() {
                             if(response.isSuccessful){
                                 judulArtikel.setText("${response.body()?.judul}")
                                 isi_artikel.setText("${response.body()?.isi}")
+                                Glide.with(this@IsiArtikelActivity).load("https://res.cloudinary.com/dddl4nlew/${response.body()?.image}").into(img_artikel)
                                 dialog.dismiss()
                             }
                         }
