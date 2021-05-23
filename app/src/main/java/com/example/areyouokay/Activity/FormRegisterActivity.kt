@@ -14,11 +14,14 @@ import android.widget.*
 import com.example.areyouokay.API.ApiRetrofit
 import com.example.areyouokay.Model.postUserModel
 import com.example.areyouokay.R
+import okhttp3.internal.http.toHttpDateOrNull
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 
 class FormRegisterActivity : AppCompatActivity() {
@@ -68,6 +71,9 @@ class FormRegisterActivity : AppCompatActivity() {
                 val rs_job = rj.text.toString()
                 val rs_gender = rg.text.toString()
                 val rs_tglLahir = pilihTanggal.getText().toString()
+                val tgl = LocalDate.parse(rs_tglLahir)
+                val today = LocalDate.now()
+                var diff = Period.between(tgl, today)
 
                 val builder = AlertDialog.Builder(this@FormRegisterActivity)
                 builder.setMessage("Apakah data yang kamu isikan sudah benar?")
@@ -86,7 +92,7 @@ class FormRegisterActivity : AppCompatActivity() {
                                     ""  + email + "",
                                     "" + rs_tglLahir + "",
                                     "" + rs_gender + "",
-                                    "" + rs_job + ""
+                                    "" + rs_job + "", "" + diff.years.toString() + ""
                             ).enqueue(object : Callback<postUserModel>{
                                 override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
                                     if(response.isSuccessful){
@@ -114,7 +120,7 @@ class FormRegisterActivity : AppCompatActivity() {
                                                 ""  + email + "",
                                                 "" + rs_tglLahir + "",
                                                 "" + rs_gender + "",
-                                                "" + rs_job + ""
+                                                "" + rs_job + "", "" + diff.years.toString() + ""
                                         ).enqueue(object : Callback<postUserModel>{
                                             override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
                                                 if(response.isSuccessful){

@@ -27,7 +27,8 @@ interface ApiEndpoint {
             @Field("email") email: String,
             @Field("ttl") ttl: String,
             @Field("jenis_kelamin") jenis_kelamin: String,
-            @Field("pekerjaan") pekerjaan: String
+            @Field("pekerjaan") pekerjaan: String,
+            @Field("umur") umur: String
     ): Call<postUserModel>
 
     @FormUrlEncoded
@@ -39,7 +40,8 @@ interface ApiEndpoint {
             @Field("email") email: String,
             @Field("ttl") ttl: String,
             @Field("jenis_kelamin") jenis_kelamin: String,
-            @Field("pekerjaan") pekerjaan: String
+            @Field("pekerjaan") pekerjaan: String,
+            @Field("umur") umur: String
     ): Call<postUserModel>
 
     @FormUrlEncoded

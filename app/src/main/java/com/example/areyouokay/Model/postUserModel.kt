@@ -6,5 +6,6 @@ data class postUserModel(
             val email: String,
             val ttl: String,
             val jenis_kelamin: String,
-            val pekerjaan: String
+            val pekerjaan: String,
+            val umur: String
     )

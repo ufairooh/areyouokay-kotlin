@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import com.example.areyouokay.API.ApiRetrofit
 import com.example.areyouokay.Model.getDeteksiModel
 import com.example.areyouokay.Model.getUserModel
+import com.example.areyouokay.Model.postUserModel
 import com.example.areyouokay.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,6 +20,8 @@ import retrofit2.Response
 import java.math.RoundingMode
 import java.net.SocketTimeoutException
 import java.text.DecimalFormat
+import java.time.LocalDate
+import java.time.Period
 
 class HomeActivity : AppCompatActivity() {
 
@@ -59,9 +62,56 @@ class HomeActivity : AppCompatActivity() {
 
         api.getUser("" + idUser +"").enqueue(object : Callback<getUserModel> {
             override fun onResponse(call: Call<getUserModel>, response: Response<getUserModel>) {
-                    nama.setText("${response.body()?.nama}")
+                        val name = "${response.body()?.nama}"
+                        nama.setText(name)
                         val gender = "${response.body()?.jenis_kelamin}"
                         val id_user = "${response.body()?.id}"
+                        val ttl = "${response.body()?.ttl}"
+                        val tgl = LocalDate.parse(ttl)
+                        val today = LocalDate.now()
+                        var diff = Period.between(tgl, today)
+                        val umur = "${response.body()?.umur}"
+                        val pekerjaan = "${response.body()?.pekerjaan}"
+                        val email = "${response.body()?.email}"
+
+                        if(diff.years.toString() != umur){
+                            api.updateUser(
+                                    "" + idUser + "",
+                                    ""  + name + "",
+                                    "" + email + "",
+                                    "" + ttl + "",
+                                    "" + gender + "",
+                                    "" + pekerjaan + "", "" + diff.years.toString() + ""
+                            ).enqueue(object : Callback<postUserModel>{
+                                override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
+
+                                }
+
+                                override fun onFailure(call: Call<postUserModel>, t: Throwable) {
+                                    if (t is SocketTimeoutException) {
+                                        api.updateUser(
+                                                "" + idUser + "",
+                                                ""  + name + "",
+                                                "" + email + "",
+                                                "" + ttl + "",
+                                                "" + gender + "",
+                                                "" + pekerjaan + "", "" + diff.years.toString() + ""
+                                        ).enqueue(object : Callback<postUserModel>{
+                                            override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
+
+                                            }
+
+                                            override fun onFailure(call: Call<postUserModel>, t: Throwable) {
+                                                if (t is SocketTimeoutException) {
+                                                    Toast.makeText(this@HomeActivity,"timeout", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+
                         if(gender == "Perempuan"){
                             icon_gender.setImageResource(R.drawable.girl)
                         }else{
@@ -126,6 +176,67 @@ class HomeActivity : AppCompatActivity() {
                             }
 
                             override fun onFailure(call: Call<getDeteksiModel>, t: Throwable) {
+                                api.getLastDeteksi("" + id_user + "").enqueue(object : Callback<getDeteksiModel> {
+                                    override fun onResponse(call: Call<getDeteksiModel>, response: Response<getDeteksiModel>) {
+                                        if(response.isSuccessful){
+                                            val id_depresi = "${response.body()?.tingkatdepresi_id}"
+                                            if(id_depresi == "1"){
+                                                val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                val hsl = hasilhitung.toDouble()
+                                                val hasilpersen = hsl * 100
+                                                val df = DecimalFormat("#.###")
+                                                df.roundingMode = RoundingMode.CEILING
+                                                val hasilformat = df.format(hasilpersen)
+                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                depresi.setText("Tidak Depresi")
+                                                penanganan.visibility = View.GONE
+
+                                            }
+                                            else if(id_depresi == "2"){
+                                                val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                val hsl = hasilhitung.toDouble()
+                                                val hasilpersen = hsl * 100
+                                                val df = DecimalFormat("#.###")
+                                                df.roundingMode = RoundingMode.CEILING
+                                                val hasilformat = df.format(hasilpersen)
+                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                depresi.setText("Depresi Ringan")
+                                                intentPenanganan("2", id_user)
+                                            }
+                                            else if (id_depresi == "3"){
+                                                val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                val hsl = hasilhitung.toDouble()
+                                                val hasilpersen = hsl * 100
+                                                val df = DecimalFormat("#.###")
+                                                df.roundingMode = RoundingMode.CEILING
+                                                val hasilformat = df.format(hasilpersen)
+                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                depresi.setText("Depresi Sedang")
+                                                intentPenanganan("3", id_user)
+                                            }
+                                            else if(id_depresi == "4"){
+                                                val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                val hsl = hasilhitung.toDouble()
+                                                val hasilpersen = hsl * 100
+                                                val df = DecimalFormat("#.###")
+                                                df.roundingMode = RoundingMode.CEILING
+                                                val hasilformat = df.format(hasilpersen)
+                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                depresi.setText("Depresi Berat")
+                                                intentPenanganan("4", id_user)
+                                            }
+                                            else{
+                                                depresi.setText("-")
+                                                keyakinan.setText("-")
+                                                penanganan.visibility = View.GONE
+                                            }
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<getDeteksiModel>, t: Throwable) {
+                                    }
+
+                                })
                             }
 
                         })

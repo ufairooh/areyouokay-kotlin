@@ -1,5 +1,6 @@
 package com.example.areyouokay
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.SocketTimeoutException
+import kotlin.system.exitProcess
 
 const val RC_SIGN_IN = 123
 
@@ -265,5 +267,11 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        moveTaskToBack(true)
+        exitProcess(-1)
     }
 }

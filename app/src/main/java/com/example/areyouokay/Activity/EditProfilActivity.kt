@@ -17,6 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 
 class EditProfilActivity : AppCompatActivity() {
@@ -120,13 +122,16 @@ class EditProfilActivity : AppCompatActivity() {
                     rg = findViewById(editGender.getCheckedRadioButtonId())
                     val job = rj.text.toString()
                     val jenis_kelamin = rg.text.toString()
+                    val tgl = LocalDate.parse(ttl)
+                    val today = LocalDate.now()
+                    var diff = Period.between(tgl, today)
                     api.updateUser(
                             "" + idUser + "",
                             ""  + nama + "",
                             "" + email + "",
                             "" + ttl + "",
                             "" + jenis_kelamin + "",
-                            "" + job + ""
+                            "" + job + "", "" + diff.years.toString() + ""
                     ).enqueue(object : Callback<postUserModel>{
                         override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
                             if(response.isSuccessful) {
@@ -142,7 +147,7 @@ class EditProfilActivity : AppCompatActivity() {
                                         "" + email + "",
                                         "" + ttl + "",
                                         "" + jenis_kelamin + "",
-                                        "" + job + ""
+                                        "" + job + "", "" + diff.years.toString() + ""
                                 ).enqueue(object : Callback<postUserModel>{
                                     override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
                                         if(response.isSuccessful) {
@@ -207,13 +212,16 @@ class EditProfilActivity : AppCompatActivity() {
                                 rg = findViewById(editGender.getCheckedRadioButtonId())
                                 val job = rj.text.toString()
                                 val jenis_kelamin = rg.text.toString()
+                                val tgl = LocalDate.parse(ttl)
+                                val today = LocalDate.now()
+                                var diff = Period.between(tgl, today)
                                 api.updateUser(
                                         "" + idUser + "",
                                         ""  + nama + "",
                                         "" + email + "",
                                         "" + ttl + "",
                                         "" + jenis_kelamin + "",
-                                        "" + job + ""
+                                        "" + job + "", "" + diff.years.toString() + ""
                                 ).enqueue(object : Callback<postUserModel>{
                                     override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
                                         if(response.isSuccessful) {
@@ -229,7 +237,7 @@ class EditProfilActivity : AppCompatActivity() {
                                                     "" + email + "",
                                                     "" + ttl + "",
                                                     "" + jenis_kelamin + "",
-                                                    "" + job + ""
+                                                    "" + job + "", "" + diff.years.toString() + ""
                                             ).enqueue(object : Callback<postUserModel>{
                                                 override fun onResponse(call: Call<postUserModel>, response: Response<postUserModel>) {
                                                     if(response.isSuccessful) {

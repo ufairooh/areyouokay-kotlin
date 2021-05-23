@@ -6,5 +6,6 @@ data class getUserModel(
         val email: String,
         val ttl: String,
         val jenis_kelamin: String,
-        val pekerjaan: String
+        val pekerjaan: String,
+        val umur: String
 )
