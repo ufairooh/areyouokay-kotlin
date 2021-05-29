@@ -48,22 +48,22 @@ interface ApiEndpoint {
     @Headers("Accept: application/json")
     @POST("hasildeteksi-create/")
     fun createHasilDeteksi(
-            @Field("pengguna_id") pengguna_id: String,
+            @Field("pengguna") pengguna: String,
             @Field("createdAt") createdAt: String,
             @Field("hasil_hitung") hasil_hitung: String,
-            @Field("tingkatdepresi_id") tingkatdepresi_id: String
+            @Field("tingkatdepresi") tingkatdepresi_id: String
     ): Call<postDeteksiModel>
 
     @Headers("Accept: application/json")
-    @GET("hasildeteksi-detail-by-idpengguna/{pengguna_id}/")
+    @GET("hasildeteksi-detail-by-idpengguna/{pengguna}/")
     fun getDeteksi(
-            @Path("pengguna_id") pengguna_id: String
+            @Path("pengguna") pengguna: String
     ) : Call<List<getDeteksiModel>>
 
     @Headers("Accept: application/json")
-    @GET("hasildeteksi-detail-by-recentidpengguna/{pengguna_id}/")
+    @GET("hasildeteksi-detail-by-recentidpengguna/{pengguna}/")
     fun getLastDeteksi(
-            @Path("pengguna_id") pengguna_id: String
+            @Path("pengguna") pengguna: String
     ) : Call<getDeteksiModel>
 
     @FormUrlEncoded

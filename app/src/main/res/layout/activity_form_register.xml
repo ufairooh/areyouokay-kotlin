@@ -113,7 +113,7 @@
                                     android:layout_marginTop="12dp"
                                     android:button="@drawable/boy"
                                     android:gravity="center"
-                                    android:text="Laki-Laki"
+                                    android:text="Laki-laki"
                                     android:textColor="#00000000"
                                     app:buttonTint="#00000000"
                                     android:textSize="0sp"

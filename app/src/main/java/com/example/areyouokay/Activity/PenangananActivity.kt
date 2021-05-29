@@ -17,6 +17,7 @@ import com.example.areyouokay.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 class PenangananActivity : AppCompatActivity() {
 
@@ -57,22 +58,28 @@ class PenangananActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<getPenangananModel>, t: Throwable) {
-                api.gePenanganan("" + idDepresi +"").enqueue(object : Callback<getPenangananModel> {
-                    override fun onResponse(call: Call<getPenangananModel>, response: Response<getPenangananModel>) {
-                        if(response.isSuccessful){
-                            judul_penanganan.setText("${response.body()?.judul}")
-                            isi_penanganan.setText("${response.body()?.isi}")
-                            Glide.with(this@PenangananActivity).load("https://res.cloudinary.com/dddl4nlew/${response.body()?.image}").into(img_penanganan)
-                            dialog.dismiss()
+                if(t is SocketTimeoutException){
+                    api.gePenanganan("" + idDepresi +"").enqueue(object : Callback<getPenangananModel> {
+                        override fun onResponse(call: Call<getPenangananModel>, response: Response<getPenangananModel>) {
+                            if(response.isSuccessful){
+                                judul_penanganan.setText("${response.body()?.judul}")
+                                isi_penanganan.setText("${response.body()?.isi}")
+                                Glide.with(this@PenangananActivity).load("https://res.cloudinary.com/dddl4nlew/${response.body()?.image}").into(img_penanganan)
+                                dialog.dismiss()
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<getPenangananModel>, t: Throwable) {
-                        dialog.dismiss()
-                        Toast.makeText(this@PenangananActivity,"timeout", Toast.LENGTH_LONG).show()
-                    }
+                        override fun onFailure(call: Call<getPenangananModel>, t: Throwable) {
+                            dialog.dismiss()
+                            if(t is SocketTimeoutException){
+                                Toast.makeText(this@PenangananActivity,"try again", Toast.LENGTH_LONG).show()
+                            }
 
-                })
+                        }
+
+                    })
+                }
+
             }
 
         })

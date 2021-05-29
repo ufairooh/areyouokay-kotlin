@@ -278,6 +278,7 @@ class DeteksiActivity : AppCompatActivity() {
                 "" + id_depresi + ""
         ).enqueue(object : Callback<postDeteksiModel> {
             override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
+                intent(idUser, getFinalValues, id_depresi, tanggal)
                     val id_deteksi = "${response.body()?.id}"
                     for (i in 0..19){
                         val id_pertanyaan = i + 1
@@ -311,7 +312,7 @@ class DeteksiActivity : AppCompatActivity() {
                         api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                             override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                 if(response.isSuccessful){
-                                    intent(idUser, getFinalValues, id_depresi, tanggal)
+                                    //intent(idUser, getFinalValues, id_depresi, tanggal)
                                 }
                             }
 
@@ -320,7 +321,7 @@ class DeteksiActivity : AppCompatActivity() {
                                     api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                                         override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                             if(response.isSuccessful){
-                                                intent(idUser, getFinalValues, id_depresi, tanggal)
+                                                //intent(idUser, getFinalValues, id_depresi, tanggal)
                                             }
                                         }
 
@@ -352,7 +353,7 @@ class DeteksiActivity : AppCompatActivity() {
                             "" + id_depresi + ""
                     ).enqueue(object : Callback<postDeteksiModel> {
                         override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
-                            //intent(idUser, getFinalValues, id_depresi, tanggal)
+                            intent(idUser, getFinalValues, id_depresi, tanggal)
                             val id_deteksi = "${response.body()?.id}"
                             for (i in 0..19){
                                 val id_pertanyaan = i + 1
@@ -386,7 +387,7 @@ class DeteksiActivity : AppCompatActivity() {
                                 api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                                     override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                         if(response.isSuccessful){
-                                            intent(idUser, getFinalValues, id_depresi, tanggal)
+                                            //intent(idUser, getFinalValues, id_depresi, tanggal)
                                         }
                                     }
 
@@ -395,7 +396,7 @@ class DeteksiActivity : AppCompatActivity() {
                                             api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                                                 override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                                     if(response.isSuccessful){
-                                                        intent(idUser, getFinalValues, id_depresi, tanggal)
+                                                        //intent(idUser, getFinalValues, id_depresi, tanggal)
                                                     }
                                                 }
 

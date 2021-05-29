@@ -11,6 +11,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#EFEBE8"
         android:elevation="3dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -54,7 +55,7 @@
             <ImageView
                 android:id="@+id/img_penanganan"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:scaleType="fitXY"/>
 
             <LinearLayout

@@ -97,7 +97,7 @@ class ProfilActivity : AppCompatActivity() {
                         override fun onFailure(call: Call<getUserModel>, t: Throwable) {
                             if(t is SocketTimeoutException){
                                 dialog.dismiss()
-                                Toast.makeText(this@ProfilActivity,"timeout", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@ProfilActivity,"try again", Toast.LENGTH_LONG).show()
                             }
                         }
                     })
@@ -145,7 +145,8 @@ class ProfilActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<getDeteksiModel>>, response: Response<List<getDeteksiModel>>) {
                 if (response.isSuccessful) {
                     val listData = response.body()!!
-                    historyAdapter.setData(listData)
+                    val data = listData.sortedByDescending { it.createdAt }
+                    historyAdapter.setData(data)
                     dialog.dismiss()
 
                 }
@@ -167,7 +168,7 @@ class ProfilActivity : AppCompatActivity() {
                         override fun onFailure(call: Call<List<getDeteksiModel>>, t: Throwable) {
                             if(t is SocketTimeoutException){
                                 dialog.dismiss()
-                                Toast.makeText(this@ProfilActivity,"timeout", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@ProfilActivity,"try again", Toast.LENGTH_LONG).show()
                             }
                         }
 

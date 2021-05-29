@@ -74,7 +74,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tingkat Depresi:"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textColor="@color/white"/>
 
                             <TextView
@@ -82,9 +82,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="3dp"
-                                tools:text="Depresi Ringan"
+                                tools:text="Depresi Sedang"
                                 android:maxLines="1"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/white"/>
 
@@ -102,7 +102,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tingkat Keyakinan:"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textColor="@color/white"/>
 
                             <TextView
@@ -112,7 +112,7 @@
                                 android:layout_marginStart="3dp"
                                 tools:text="70%"
                                 android:maxLines="1"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/white"/>
 

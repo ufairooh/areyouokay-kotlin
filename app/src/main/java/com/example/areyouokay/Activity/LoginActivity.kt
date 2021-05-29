@@ -144,7 +144,7 @@ class LoginActivity : AppCompatActivity() {
                             override fun onFailure(call: Call<getUserModel>, t: Throwable) {
                                 if(t is SocketTimeoutException){
                                     dialog.dismiss()
-                                    Toast.makeText(this@LoginActivity,"timeout", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this@LoginActivity,"try again", Toast.LENGTH_LONG).show()
                                 }
                             }
 
@@ -211,7 +211,7 @@ class LoginActivity : AppCompatActivity() {
                                 override fun onFailure(call: Call<getUserModel>, t: Throwable) {
                                     if(t is SocketTimeoutException){
                                         dialog.dismiss()
-                                        Toast.makeText(this@LoginActivity,"timeout", Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this@LoginActivity,"try again", Toast.LENGTH_LONG).show()
                                     }
                                 }
 

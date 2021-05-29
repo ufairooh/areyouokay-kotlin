@@ -11,6 +11,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#EFEBE8"
         android:elevation="3dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -35,7 +36,7 @@
                     tools:text="Pencegahan Depresi"
                     android:textColor="@color/darkBlue"
                     android:gravity="center_horizontal"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"/>
             </RelativeLayout>
 
@@ -54,8 +55,9 @@
             <ImageView
                 android:id="@+id/img_artikel"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scaleType="fitXY"/>
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                tools:src="@drawable/penanganan"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

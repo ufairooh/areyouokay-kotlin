@@ -73,7 +73,7 @@ class IsiArtikelActivity : AppCompatActivity() {
                         override fun onFailure(call: Call<getArtikelModel>, t: Throwable) {
                             if(t is SocketTimeoutException){
                                 dialog.dismiss()
-                                Toast.makeText(this@IsiArtikelActivity,"timeout", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@IsiArtikelActivity,"try again", Toast.LENGTH_LONG).show()
                             }
                         }
 
@@ -84,13 +84,5 @@ class IsiArtikelActivity : AppCompatActivity() {
 
 
         })
-    }
-
-    @SuppressLint("MissingSuperCall")
-    override fun onBackPressed() {
-        val id_user = intent.getStringExtra("id_user")
-        val intent = Intent(this, ArtikelActivity::class.java)
-        intent.putExtra("id_user", id_user)
-        startActivity(intent)
     }
 }

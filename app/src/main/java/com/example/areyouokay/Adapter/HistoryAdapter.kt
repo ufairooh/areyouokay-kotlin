@@ -32,7 +32,7 @@ class HistoryAdapter(val history: ArrayList<getDeteksiModel>): RecyclerView.Adap
 
         val formatDate = output.format(tgl)
         holder.timestamp.text = formatDate
-        val depresi = data.tingkatdepresi_id
+        val depresi = data.tingkatdepresi
         if (depresi == "1"){
             holder.tingkat_depresi.text = "Tidak Depresi"
             holder.icon_depresi.setImageResource(R.drawable.depresi1)
