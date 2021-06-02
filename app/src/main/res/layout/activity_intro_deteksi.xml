@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".Activity.IntroDeteksiActivity">
+    tools:context=".Activity.IntroDeteksiActivity"
+    android:background="@color/white">
 
 
     <RelativeLayout
@@ -34,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="Aplikasi are you okay akan membantu kamu untuk melakukan deteksi dini depresi . Terdapat 21 pernyataan yang harus kamu isi untuk melakukan deteksi dini depresi. Dalam pengisian tidak ada jawaban yang benar atau salah. Isilah jawaban yang sesuai dengan apa yang paling kamu rasakan kamu saat ini."
+                android:text="Aplikasi are you okay akan membantu kamu untuk melakukan deteksi dini depresi . Terdapat 20 pernyataan yang harus kamu isi untuk melakukan deteksi dini depresi. Dalam pengisian tidak ada jawaban yang benar atau salah. Isilah jawaban yang sesuai dengan apa yang paling kamu rasakan kamu saat ini."
                 android:textColor="@color/darkBlue"
                 android:textSize="15sp"/>
 

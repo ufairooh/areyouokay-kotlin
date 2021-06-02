@@ -75,6 +75,7 @@ class DeteksiActivity : AppCompatActivity() {
     private val api by lazy { ApiRetrofit().endpoint }
     private lateinit var dialog: AlertDialog
     private lateinit var inflater: LayoutInflater
+    private lateinit var btnSelesai: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,91 +147,23 @@ class DeteksiActivity : AppCompatActivity() {
 
             when (i) {
                 // Tidak Depresi
-                0, 3, 19 -> {
+                0, 3, 6, 8, 11 -> {
                     val txtTotalTidakDepresi = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupTidakDepresiList.add(txtTotalTidakDepresi)
                 }
                 // Depresi Ringan
-                1, 6, 11, 15, 16, 17, 18 -> {
+                5, 15, 16, 18, 19 -> {
                     val txtTotalDepresiRingan = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupDepresiRinganList.add(txtTotalDepresiRingan)
                 }
                 // Depresi Sedang
-                2, 7, 9, 10, 13, 14-> {
+                4, 9, 12, 14, 17-> {
                     val txtTotalDepresiSedang = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupDepresiSedangList.add(txtTotalDepresiSedang)
                 }
                 // Depresi Berat
-                4, 5, 8, 12 -> {
+                1, 2, 7, 10, 13 -> {
                     val txtTotalDepresiBerat = cfPakar[i] * nilaiRB[i]!!.toDouble()
-                    groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-            }
-
-            //OVERRIDE
-            when (i) {
-                0 -> {
-                    val txtTotalDepresiRingan = cfPakar[20] * nilaiRB[i]!!.toDouble()
-                    groupDepresiRinganList.add(txtTotalDepresiRingan)
-                }
-                1 -> {
-                    val txtTotalDepresiSedang = cfPakar[21] * nilaiRB[i]!!.toDouble()
-                    groupDepresiSedangList.add(txtTotalDepresiSedang)
-                }
-                6 -> {
-                    val txtTotalDepresiSedang = cfPakar[22] * nilaiRB[i]!!.toDouble()
-                    groupDepresiSedangList.add(txtTotalDepresiSedang)
-                }
-                7 -> {
-                        val txtTotalDepresiBerat = cfPakar[23] * nilaiRB[i]!!.toDouble()
-                        groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-                9 -> {
-                    val txtTotalDepresiBerat = cfPakar[24] * nilaiRB[i]!!.toDouble()
-                    groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-                10 -> {
-                    val txtTotalDepresiBerat = cfPakar[25] * nilaiRB[i]!!.toDouble()
-                    groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-                16 -> {
-                    val txtTotalDepresiSedang = cfPakar[26] * nilaiRB[i]!!.toDouble()
-                    groupDepresiSedangList.add(txtTotalDepresiSedang)
-                }
-                17 -> {
-                    val txtTotalDepresiSedang = cfPakar[27] * nilaiRB[i]!!.toDouble()
-                    groupDepresiSedangList.add(txtTotalDepresiSedang)
-                }
-                19 -> {
-                    val txtTotalDepresiRingan = cfPakar[28] * nilaiRB[i]!!.toDouble()
-                    groupDepresiRinganList.add(txtTotalDepresiRingan)
-                }
-            }
-
-            //override
-            when(i){
-                0 -> {
-                    val txtTotalDepresiSedang = cfPakar[29] * nilaiRB[i]!!.toDouble()
-                    groupDepresiSedangList.add(txtTotalDepresiSedang)
-                }
-                1 -> {
-                    val txtTotalDepresiBerat = cfPakar[30] * nilaiRB[i]!!.toDouble()
-                    groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-                6 -> {
-                    val txtTotalDepresiBerat = cfPakar[31] * nilaiRB[i]!!.toDouble()
-                    groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-                17 -> {
-                    val txtTotalDepresiBerat = cfPakar[32] * nilaiRB[i]!!.toDouble()
-                    groupDepresiBeratList.add(txtTotalDepresiBerat)
-                }
-            }
-
-            //override
-            when(i){
-                0 -> {
-                    val txtTotalDepresiBerat = cfPakar[33] * nilaiRB[i]!!.toDouble()
                     groupDepresiBeratList.add(txtTotalDepresiBerat)
                 }
             }
@@ -511,9 +444,6 @@ class DeteksiActivity : AppCompatActivity() {
         btn_prev = findViewById(R.id.btn_prev)
         btn_prev.visibility = View.INVISIBLE
 
-        txt_indicator = findViewById(R.id.txt_indicator)
-        txt_indicator.text = (page + 1).toString() + " / " + frameList.size
-
         btn_next = findViewById(R.id.btn_next)
         btn_next.setOnClickListener {
             val pass = pageLayoutChecking(page)
@@ -523,16 +453,13 @@ class DeteksiActivity : AppCompatActivity() {
                     // change page
                     page++
                     btn_prev.visibility = View.VISIBLE
-                    when (page) {
-                        frameList.size - 1 -> btn_next.visibility = View.INVISIBLE
-
+                    when(page){
+                        frameList.size - 1 -> btn_next.visibility = View.GONE
                     }
                     frameList.forEach { i ->
                         i.visibility = View.GONE
                     }
                     frameList[page].visibility = View.VISIBLE
-
-                    txt_indicator.text = (page + 1).toString() + " / " + frameList.size
                 }
 
                 else -> Toast.makeText(this,"Jawaban tidak boleh kosong", Toast.LENGTH_LONG).show()
@@ -550,8 +477,6 @@ class DeteksiActivity : AppCompatActivity() {
                     i.visibility = View.GONE
                 }
                 frameList[page].visibility = View.VISIBLE
-
-                txt_indicator.text = (page + 1).toString() + " / " + frameList.size
             }
         }
     }

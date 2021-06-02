@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.FormRegisterActivity">
+    tools:context=".Activity.FormRegisterActivity"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -245,41 +246,52 @@
 
                                         <androidx.appcompat.widget.AppCompatRadioButton
                                             android:id="@+id/btnKuliah"
-                                            android:layout_width="110dp"
-                                            android:layout_height="110dp"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
                                             android:layout_gravity="center_horizontal"
                                             android:layout_marginTop="15dp"
                                             android:background="@drawable/radiobutton_mahasiswa"
                                             android:gravity="center"
-                                            android:text="Mahasiswa"
+                                            android:text="Pelajar/Mahasiswa"
+                                            android:textColor="#00000000"
+                                            app:buttonTint="#00000000" />
+
+                                        <androidx.appcompat.widget.AppCompatRadioButton
+                                            android:id="@+id/btnKulKer"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
+                                            android:layout_gravity="center_horizontal"
+                                            android:background="@drawable/radiobutton_mahasiswa_kerja"
+                                            android:gravity="center"
+                                            android:text="Pelajar/Mahasiswa dan Kerja"
                                             android:textColor="#00000000"
                                             app:buttonTint="#00000000" />
 
 
                                         <androidx.appcompat.widget.AppCompatRadioButton
                                             android:id="@+id/btnKerja"
-                                            android:layout_width="110dp"
-                                            android:layout_height="110dp"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
                                             android:layout_gravity="center_horizontal"
-                                            android:layout_marginTop="12dp"
                                             android:background="@drawable/radiobutton_kerja"
                                             android:gravity="center"
                                             android:text="Kerja"
                                             android:textColor="#00000000"
                                             app:buttonTint="#00000000" />
 
-
                                         <androidx.appcompat.widget.AppCompatRadioButton
-                                            android:id="@+id/btnKulKer"
-                                            android:layout_width="110dp"
-                                            android:layout_height="110dp"
+                                            android:id="@+id/btnTidakKerja"
+                                            android:layout_width="100dp"
+                                            android:layout_height="100dp"
                                             android:layout_gravity="center_horizontal"
-                                            android:layout_marginTop="12dp"
-                                            android:background="@drawable/radiobutton_mahasiswa_kerja"
+                                            android:background="@drawable/radiobutton_tidakkerja"
                                             android:gravity="center"
-                                            android:text="Mahasiswa dan Kerja"
+                                            android:text="Tidak Kerja"
                                             android:textColor="#00000000"
                                             app:buttonTint="#00000000" />
+
+
+
 
                                     </RadioGroup>
 
@@ -301,7 +313,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:backgroundTint="@color/green"/>
-
             </FrameLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

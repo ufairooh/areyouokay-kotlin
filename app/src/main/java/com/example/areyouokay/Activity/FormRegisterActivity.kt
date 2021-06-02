@@ -32,6 +32,7 @@ class FormRegisterActivity : AppCompatActivity() {
 
     private lateinit var dialogAlert: DialogInterface
     private lateinit var btnSelesai: Button
+    private lateinit var Selesai: Button
     private lateinit var btn_prev: Button
     private lateinit var btn_next: Button
     private lateinit var pilihTanggal: EditText
@@ -225,9 +226,6 @@ class FormRegisterActivity : AppCompatActivity() {
         btn_prev = findViewById(R.id.btn_prev)
         btn_prev.visibility = View.INVISIBLE
 
-        txt_indicator = findViewById(R.id.txt_indicator)
-        txt_indicator.text = (page + 1).toString() + " / " + frameList.size
-
         btn_next = findViewById(R.id.btn_next)
         btn_next.setOnClickListener {
             val pass = pageLayoutChecking(page)
@@ -238,11 +236,9 @@ class FormRegisterActivity : AppCompatActivity() {
 
                     // change page
                     page++
-                    txt_indicator.text = (page + 1).toString() + " / " + frameList.size
                     btn_prev.visibility = View.VISIBLE
-                    when (page) {
-                        frameList.size - 1 -> btn_next.visibility = View.INVISIBLE
-
+                    when(page){
+                        frameList.size - 1 -> btn_next.visibility = View.GONE
                     }
                     frameList.forEach { i ->
                         i.visibility = View.GONE
@@ -259,7 +255,6 @@ class FormRegisterActivity : AppCompatActivity() {
 
             btn_prev.setOnClickListener {
                 page--
-                txt_indicator.text = (page+1).toString() + " / " + frameList.size
 
                 btn_next.visibility = View.VISIBLE
                 when (page) {

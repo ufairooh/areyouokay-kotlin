@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.IsiArtikelActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -73,6 +74,7 @@
                     android:id="@+id/isi_artikel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
                     android:layout_marginTop="10dp"
                     tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing
 elit, sed diam nonummy nibh euismod tincidunt

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.EditProfilActivity">
+    tools:context=".Activity.EditProfilActivity"
+    android:background="@color/white">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -115,7 +116,7 @@
                 android:id="@+id/editMahasiswa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mahasiswa"
+                android:text="Pelajar/Mahasiswa"
                 android:textSize="18sp"/>
             <RadioButton
                 android:id="@+id/editKerja"
@@ -127,7 +128,13 @@
                 android:id="@+id/editMahasiswaKerja"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mahasiswa dan Kerja"
+                android:text="Pelajar/Mahasiswa dan Kerja"
+                android:textSize="18sp"/>
+            <RadioButton
+                android:id="@+id/editTidakKerja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak Kerja"
                 android:textSize="18sp"/>
         </RadioGroup>
         <Button

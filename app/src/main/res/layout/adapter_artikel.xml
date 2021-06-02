@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:background="@color/white">
     <LinearLayout
         android:id="@+id/artikel"
         android:layout_width="match_parent"
