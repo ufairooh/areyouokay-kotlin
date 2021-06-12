@@ -57,6 +57,53 @@
             android:padding="10dp">
 
             <FrameLayout
+                android:id="@+id/frame_nama"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="NAMA"
+                            android:textColor="@color/darkBlue"
+                            android:textSize="35sp"
+                            android:textStyle="bold"/>
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/inputNama"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:hint="nama pengguna"
+                            android:textAlignment="center"
+                            android:textSize="23sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </RelativeLayout>
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/frame_gender"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

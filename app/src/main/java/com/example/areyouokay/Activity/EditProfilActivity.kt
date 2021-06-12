@@ -95,14 +95,17 @@ class EditProfilActivity : AppCompatActivity() {
                     editGender.check(R.id.editGenderL)
                 }
 
-                if(pekerjaan == "Mahasiswa dan Kerja"){
+                if(pekerjaan == "Pelajar/Mahasiswa dan Kerja"){
                     editPekerjaan.check(R.id.editMahasiswaKerja)
                 }
                 else if (pekerjaan == "Kerja"){
                     editPekerjaan.check(R.id.editKerja)
                 }
-                else {
+                else if(pekerjaan == "Pelajar/Mahasiswa"){
                     editPekerjaan.check(R.id.editMahasiswa)
+                }
+                else{
+                    editPekerjaan.check(R.id.editTidakKerja)
                 }
                 dialog.dismiss()
 

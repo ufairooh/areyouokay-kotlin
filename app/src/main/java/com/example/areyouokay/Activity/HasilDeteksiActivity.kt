@@ -26,7 +26,7 @@ class HasilDeteksiActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hasil_deteksi)
 
-        keyakinanDepresi = findViewById(R.id.keyakinanDepresi)
+        //keyakinanDepresi = findViewById(R.id.keyakinanDepresi)
         iconDepresi = findViewById(R.id.iconDepresi)
         tingkatDepresi = findViewById(R.id.tingkatDepresi)
         btnHome = findViewById(R.id.btnHome)
@@ -41,7 +41,7 @@ class HasilDeteksiActivity : AppCompatActivity() {
         val df = DecimalFormat("#.###")
         df.roundingMode = RoundingMode.CEILING
         val hasilformat = df.format(keyakinan)
-        keyakinanDepresi.setText(hasilformat.toString() + "%")
+        //keyakinanDepresi.setText(hasilformat.toString() + "%")
 
         if(id_depresi == "1"){
             iconDepresi.setImageResource(R.drawable.depresi1)

@@ -70,9 +70,27 @@ interface ApiEndpoint {
     @Headers("Accept: application/json")
     @POST("historypertanyaanjawaban-create/")
     fun createPertanyaanJawaban(
-            @Field("hasildeteksi_id") hasildeteksi_id: String,
-            @Field("pertanyaan_id") pertanyaan_id: String,
-            @Field("jawaban_id") jawaban_id: String
+            @Field("jawaban_1") jawaban_1: String,
+            @Field("jawaban_2") jawaban_2: String,
+            @Field("jawaban_3") jawaban_3: String,
+            @Field("jawaban_4") jawaban_4: String,
+            @Field("jawaban_5") jawaban_5: String,
+            @Field("jawaban_6") jawaban_6: String,
+            @Field("jawaban_7") jawaban_7: String,
+            @Field("jawaban_8") jawaban_8: String,
+            @Field("jawaban_9") jawaban_9: String,
+            @Field("jawaban_10") jawaban_10: String,
+            @Field("jawaban_11") jawaban_11: String,
+            @Field("jawaban_12") jawaban_12: String,
+            @Field("jawaban_13") jawaban_13: String,
+            @Field("jawaban_14") jawaban_14: String,
+            @Field("jawaban_15") jawaban_15: String,
+            @Field("jawaban_16") jawaban_16: String,
+            @Field("jawaban_17") jawaban_17: String,
+            @Field("jawaban_18") jawaban_18: String,
+            @Field("jawaban_19") jawaban_19: String,
+            @Field("jawaban_20") jawaban_20: String,
+            @Field("hasildeteksi") hasildeteksi: String
     ): Call<postPertanyaanJawabanModel>
 
     @Headers("Accept: application/json")

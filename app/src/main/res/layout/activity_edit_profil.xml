@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             tools:text="Ufairoh Nabihah"
+            android:hint="nama"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             tools:text="1999-11-12"
+            android:hint="yyyy-MM-dd"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"

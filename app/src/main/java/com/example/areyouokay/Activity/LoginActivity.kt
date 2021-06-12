@@ -271,6 +271,7 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
+        finishAffinity()
         moveTaskToBack(true)
         exitProcess(-1)
     }

@@ -53,7 +53,7 @@ class HomeActivity : AppCompatActivity() {
         nama = findViewById(R.id.nama)
         icon_gender = findViewById(R.id.icon_gender)
         depresi = findViewById(R.id.depresi)
-        keyakinan = findViewById(R.id.keyakinan)
+        //keyakinan = findViewById(R.id.keyakinan)
         penanganan = findViewById(R.id.penanganan)
 
 
@@ -130,7 +130,7 @@ class HomeActivity : AppCompatActivity() {
                                             val df = DecimalFormat("#.###")
                                             df.roundingMode = RoundingMode.CEILING
                                             val hasilformat = df.format(hasilpersen)
-                                            keyakinan.setText(hasilformat.toString() + "%")
+                                            //keyakinan.setText(hasilformat.toString() + "%")
                                             depresi.setText("Tidak Depresi")
                                             penanganan.visibility = View.GONE
 
@@ -142,7 +142,7 @@ class HomeActivity : AppCompatActivity() {
                                             val df = DecimalFormat("#.###")
                                             df.roundingMode = RoundingMode.CEILING
                                             val hasilformat = df.format(hasilpersen)
-                                            keyakinan.setText(hasilformat.toString() + "%")
+                                            //keyakinan.setText(hasilformat.toString() + "%")
                                             depresi.setText("Depresi Ringan")
                                             intentPenanganan("2", id_user)
                                         }
@@ -153,7 +153,7 @@ class HomeActivity : AppCompatActivity() {
                                             val df = DecimalFormat("#.###")
                                             df.roundingMode = RoundingMode.CEILING
                                             val hasilformat = df.format(hasilpersen)
-                                            keyakinan.setText(hasilformat.toString() + "%")
+                                            //keyakinan.setText(hasilformat.toString() + "%")
                                             depresi.setText("Depresi Sedang")
                                             intentPenanganan("3", id_user)
                                         }
@@ -164,13 +164,13 @@ class HomeActivity : AppCompatActivity() {
                                             val df = DecimalFormat("#.###")
                                             df.roundingMode = RoundingMode.CEILING
                                             val hasilformat = df.format(hasilpersen)
-                                            keyakinan.setText(hasilformat.toString() + "%")
+                                            //keyakinan.setText(hasilformat.toString() + "%")
                                             depresi.setText("Depresi Berat")
                                             intentPenanganan("4", id_user)
                                         }
                                         else{
                                             depresi.setText("-")
-                                            keyakinan.setText("-")
+                                            //keyakinan.setText("-")
                                             penanganan.visibility = View.GONE
                                         }
                                 }
@@ -188,7 +188,7 @@ class HomeActivity : AppCompatActivity() {
                                                 val df = DecimalFormat("#.###")
                                                 df.roundingMode = RoundingMode.CEILING
                                                 val hasilformat = df.format(hasilpersen)
-                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                //keyakinan.setText(hasilformat.toString() + "%")
                                                 depresi.setText("Tidak Depresi")
                                                 penanganan.visibility = View.GONE
 
@@ -200,7 +200,7 @@ class HomeActivity : AppCompatActivity() {
                                                 val df = DecimalFormat("#.###")
                                                 df.roundingMode = RoundingMode.CEILING
                                                 val hasilformat = df.format(hasilpersen)
-                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                //keyakinan.setText(hasilformat.toString() + "%")
                                                 depresi.setText("Depresi Ringan")
                                                 intentPenanganan("2", id_user)
                                             }
@@ -211,7 +211,7 @@ class HomeActivity : AppCompatActivity() {
                                                 val df = DecimalFormat("#.###")
                                                 df.roundingMode = RoundingMode.CEILING
                                                 val hasilformat = df.format(hasilpersen)
-                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                //keyakinan.setText(hasilformat.toString() + "%")
                                                 depresi.setText("Depresi Sedang")
                                                 intentPenanganan("3", id_user)
                                             }
@@ -222,19 +222,22 @@ class HomeActivity : AppCompatActivity() {
                                                 val df = DecimalFormat("#.###")
                                                 df.roundingMode = RoundingMode.CEILING
                                                 val hasilformat = df.format(hasilpersen)
-                                                keyakinan.setText(hasilformat.toString() + "%")
+                                                //keyakinan.setText(hasilformat.toString() + "%")
                                                 depresi.setText("Depresi Berat")
                                                 intentPenanganan("4", id_user)
                                             }
                                             else{
                                                 depresi.setText("-")
-                                                keyakinan.setText("-")
+                                                //keyakinan.setText("-")
                                                 penanganan.visibility = View.GONE
                                             }
                                         }
                                     }
 
                                     override fun onFailure(call: Call<getDeteksiModel>, t: Throwable) {
+                                        depresi.setText("-")
+                                        //keyakinan.setText("-")
+                                        penanganan.visibility = View.GONE
                                     }
 
                                 })
@@ -260,6 +263,131 @@ class HomeActivity : AppCompatActivity() {
                             }else{
                                 icon_gender.setImageResource(R.drawable.boy)
                             }
+                            api.getLastDeteksi("" + id_user + "").enqueue(object : Callback<getDeteksiModel> {
+                                override fun onResponse(call: Call<getDeteksiModel>, response: Response<getDeteksiModel>) {
+                                    if(response.isSuccessful){
+                                        val id_depresi = "${response.body()?.tingkatdepresi}"
+                                        if(id_depresi == "1"){
+                                            val hasilhitung = "${response.body()?.hasil_hitung}"
+                                            val hsl = hasilhitung.toDouble()
+                                            val hasilpersen = hsl * 100
+                                            val df = DecimalFormat("#.###")
+                                            df.roundingMode = RoundingMode.CEILING
+                                            val hasilformat = df.format(hasilpersen)
+                                            //keyakinan.setText(hasilformat.toString() + "%")
+                                            depresi.setText("Tidak Depresi")
+                                            penanganan.visibility = View.GONE
+
+                                        }
+                                        else if(id_depresi == "2"){
+                                            val hasilhitung = "${response.body()?.hasil_hitung}"
+                                            val hsl = hasilhitung.toDouble()
+                                            val hasilpersen = hsl * 100
+                                            val df = DecimalFormat("#.###")
+                                            df.roundingMode = RoundingMode.CEILING
+                                            val hasilformat = df.format(hasilpersen)
+                                            //keyakinan.setText(hasilformat.toString() + "%")
+                                            depresi.setText("Depresi Ringan")
+                                            intentPenanganan("2", id_user)
+                                        }
+                                        else if (id_depresi == "3"){
+                                            val hasilhitung = "${response.body()?.hasil_hitung}"
+                                            val hsl = hasilhitung.toDouble()
+                                            val hasilpersen = hsl * 100
+                                            val df = DecimalFormat("#.###")
+                                            df.roundingMode = RoundingMode.CEILING
+                                            val hasilformat = df.format(hasilpersen)
+                                            //keyakinan.setText(hasilformat.toString() + "%")
+                                            depresi.setText("Depresi Sedang")
+                                            intentPenanganan("3", id_user)
+                                        }
+                                        else if(id_depresi == "4"){
+                                            val hasilhitung = "${response.body()?.hasil_hitung}"
+                                            val hsl = hasilhitung.toDouble()
+                                            val hasilpersen = hsl * 100
+                                            val df = DecimalFormat("#.###")
+                                            df.roundingMode = RoundingMode.CEILING
+                                            val hasilformat = df.format(hasilpersen)
+                                            //keyakinan.setText(hasilformat.toString() + "%")
+                                            depresi.setText("Depresi Berat")
+                                            intentPenanganan("4", id_user)
+                                        }
+                                        else{
+                                            depresi.setText("-")
+                                            //keyakinan.setText("-")
+                                            penanganan.visibility = View.GONE
+                                        }
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<getDeteksiModel>, t: Throwable) {
+                                    api.getLastDeteksi("" + id_user + "").enqueue(object : Callback<getDeteksiModel> {
+                                        override fun onResponse(call: Call<getDeteksiModel>, response: Response<getDeteksiModel>) {
+                                            if(response.isSuccessful){
+                                                val id_depresi = "${response.body()?.tingkatdepresi}"
+                                                if(id_depresi == "1"){
+                                                    val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                    val hsl = hasilhitung.toDouble()
+                                                    val hasilpersen = hsl * 100
+                                                    val df = DecimalFormat("#.###")
+                                                    df.roundingMode = RoundingMode.CEILING
+                                                    val hasilformat = df.format(hasilpersen)
+                                                    //keyakinan.setText(hasilformat.toString() + "%")
+                                                    depresi.setText("Tidak Depresi")
+                                                    penanganan.visibility = View.GONE
+
+                                                }
+                                                else if(id_depresi == "2"){
+                                                    val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                    val hsl = hasilhitung.toDouble()
+                                                    val hasilpersen = hsl * 100
+                                                    val df = DecimalFormat("#.###")
+                                                    df.roundingMode = RoundingMode.CEILING
+                                                    val hasilformat = df.format(hasilpersen)
+                                                    //keyakinan.setText(hasilformat.toString() + "%")
+                                                    depresi.setText("Depresi Ringan")
+                                                    intentPenanganan("2", id_user)
+                                                }
+                                                else if (id_depresi == "3"){
+                                                    val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                    val hsl = hasilhitung.toDouble()
+                                                    val hasilpersen = hsl * 100
+                                                    val df = DecimalFormat("#.###")
+                                                    df.roundingMode = RoundingMode.CEILING
+                                                    val hasilformat = df.format(hasilpersen)
+                                                    //keyakinan.setText(hasilformat.toString() + "%")
+                                                    depresi.setText("Depresi Sedang")
+                                                    intentPenanganan("3", id_user)
+                                                }
+                                                else if(id_depresi == "4"){
+                                                    val hasilhitung = "${response.body()?.hasil_hitung}"
+                                                    val hsl = hasilhitung.toDouble()
+                                                    val hasilpersen = hsl * 100
+                                                    val df = DecimalFormat("#.###")
+                                                    df.roundingMode = RoundingMode.CEILING
+                                                    val hasilformat = df.format(hasilpersen)
+                                                    //keyakinan.setText(hasilformat.toString() + "%")
+                                                    depresi.setText("Depresi Berat")
+                                                    intentPenanganan("4", id_user)
+                                                }
+                                                else{
+                                                    depresi.setText("-")
+                                                    //keyakinan.setText("-")
+                                                    penanganan.visibility = View.GONE
+                                                }
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<getDeteksiModel>, t: Throwable) {
+                                            depresi.setText("-")
+                                            //keyakinan.setText("-")
+                                            penanganan.visibility = View.GONE
+                                        }
+
+                                    })
+                                }
+
+                            })
                             intentKuesioner(id_user)
                             intentProfil(id_user)
                             intentArtikel(id_user)

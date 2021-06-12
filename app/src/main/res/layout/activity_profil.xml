@@ -76,9 +76,9 @@
                             android:id="@+id/namaUser"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
+                            android:layout_marginTop="10dp"
                             tools:text="Ufairoh Nabihah"
-                            android:textSize="17sp"
+                            android:textSize="15sp"
                             android:textColor="@color/white"/>
 
                         <TextView
@@ -89,7 +89,7 @@
                             android:layout_marginTop="3dp"
                             tools:text="1999-11-12"
                             android:maxLines="1"
-                            android:textSize="17sp"
+                            android:textSize="15sp"
                             android:textColor="@color/white"/>
                     <TextView
                         android:id="@+id/pekerjaanUser"
@@ -99,7 +99,7 @@
                         android:layout_marginTop="3dp"
                         tools:text="Mahasiswa"
                         android:maxLines="1"
-                        android:textSize="17sp"
+                        android:textSize="15sp"
                         android:textColor="@color/white"/>
                 </LinearLayout>
 

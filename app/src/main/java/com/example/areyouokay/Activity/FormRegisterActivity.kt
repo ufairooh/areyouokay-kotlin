@@ -36,8 +36,10 @@ class FormRegisterActivity : AppCompatActivity() {
     private lateinit var btn_prev: Button
     private lateinit var btn_next: Button
     private lateinit var pilihTanggal: EditText
+    private lateinit var inputNama: EditText
     private lateinit var rg_gender: RadioGroup
     private lateinit var rg_job: RadioGroup
+    private lateinit var frame_nama: FrameLayout
     private lateinit var frame_gender: FrameLayout
     private lateinit var frame_age: FrameLayout
     private lateinit var frame_job: FrameLayout
@@ -60,8 +62,8 @@ class FormRegisterActivity : AppCompatActivity() {
         btnSelesai = findViewById(R.id.btnSelesai)
         rg_job = findViewById(R.id.rg_job)
         pilihTanggal = findViewById(R.id.pilihTanggal)
+        inputNama = findViewById(R.id.inputNama)
 
-        val nama = intent.getStringExtra("nama")
         val email = intent.getStringExtra("email")
 
         btnSelesai.setOnClickListener {
@@ -72,6 +74,7 @@ class FormRegisterActivity : AppCompatActivity() {
                 val rs_job = rj.text.toString()
                 val rs_gender = rg.text.toString()
                 val rs_tglLahir = pilihTanggal.getText().toString()
+                val rs_nama = inputNama.text.toString()
                 val tgl = LocalDate.parse(rs_tglLahir)
                 val today = LocalDate.now()
                 var diff = Period.between(tgl, today)
@@ -89,7 +92,7 @@ class FormRegisterActivity : AppCompatActivity() {
                             dialog = builder.create()
                             dialog.show()
                             api.createUser(
-                                    "" + nama + "",
+                                    "" + rs_nama + "",
                                     ""  + email + "",
                                     "" + rs_tglLahir + "",
                                     "" + rs_gender + "",
@@ -117,7 +120,7 @@ class FormRegisterActivity : AppCompatActivity() {
                                 override fun onFailure(call: Call<postUserModel>, t: Throwable) {
                                     if(t is SocketTimeoutException){
                                         api.createUser(
-                                                "" + nama + "",
+                                                "" + rs_nama + "",
                                                 ""  + email + "",
                                                 "" + rs_tglLahir + "",
                                                 "" + rs_gender + "",
@@ -213,14 +216,16 @@ class FormRegisterActivity : AppCompatActivity() {
 
         var page = 0
 
+        frame_nama = findViewById(R.id.frame_nama)
         frame_gender = findViewById(R.id.frame_gender)
         frame_age = findViewById(R.id.frame_age)
         frame_job = findViewById(R.id.frame_job)
 
         val frameList = arrayOf(
-            frame_gender,
-            frame_age,
-            frame_job
+                frame_nama,
+                frame_gender,
+                frame_age,
+                frame_job
         )
 
         btn_prev = findViewById(R.id.btn_prev)
@@ -269,13 +274,15 @@ class FormRegisterActivity : AppCompatActivity() {
     }
 
     private fun pageLayoutChecking(index: Int): Boolean {
+        inputNama = findViewById(R.id.inputNama)
         rg_gender = findViewById(R.id.rg_gender)
         pilihTanggal = findViewById(R.id.pilihTanggal)
         rg_job = findViewById(R.id.rg_job)
         return when (index) {
-            0 -> rg_gender.getCheckedRadioButtonId() != -1
-            1 -> pilihTanggal.getText().toString() != ""
-            2 -> rg_job.getCheckedRadioButtonId() != -1
+            0 -> inputNama.getText().toString() != ""
+            1 -> rg_gender.getCheckedRadioButtonId() != -1
+            2 -> pilihTanggal.getText().toString() != ""
+            3 -> rg_job.getCheckedRadioButtonId() != -1
             else -> false
 
         }

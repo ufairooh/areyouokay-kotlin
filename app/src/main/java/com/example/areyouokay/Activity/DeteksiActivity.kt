@@ -188,9 +188,12 @@ class DeteksiActivity : AppCompatActivity() {
 
 
 
+
+
     }
 
     private fun saveHasil(id_depresi: Int, getFinalValues: Double){
+        val finalJawab = ArrayList<Int?>(20)
 
         val builder = AlertDialog.Builder(this@DeteksiActivity)
         inflater = this@DeteksiActivity.layoutInflater
@@ -211,10 +214,11 @@ class DeteksiActivity : AppCompatActivity() {
                 "" + id_depresi + ""
         ).enqueue(object : Callback<postDeteksiModel> {
             override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
-                intent(idUser, getFinalValues, id_depresi, tanggal)
+
                     val id_deteksi = "${response.body()?.id}"
+
                     for (i in 0..19){
-                        val id_pertanyaan = i + 1
+                        //val id_pertanyaan = i + 1
                         val nilai = arrayOfNulls<Int>(rg.size)
 
                         rg.indices.forEach { i ->
@@ -242,7 +246,33 @@ class DeteksiActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                        api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+
+                        finalJawab.add(nilai[i])
+
+                    }
+                                        api.createPertanyaanJawaban(
+                                                "" + finalJawab[0].toString() + "",
+                                                "" + finalJawab[1].toString() + "",
+                                                "" + finalJawab[2].toString() +"",
+                                                "" + finalJawab[3].toString() +"",
+                                                "" + finalJawab[4].toString() +"",
+                                                "" + finalJawab[5].toString() +"",
+                                                "" + finalJawab[6].toString() +"",
+                                                "" + finalJawab[7].toString() +"",
+                                                "" + finalJawab[8].toString() +"",
+                                                "" + finalJawab[9].toString() +"",
+                                                "" + finalJawab[10].toString() +"",
+                                                "" + finalJawab[11].toString() +"",
+                                                "" + finalJawab[12].toString() +"",
+                                                "" + finalJawab[13].toString() +"",
+                                                "" + finalJawab[14].toString() +"",
+                                                "" + finalJawab[15].toString() +"",
+                                                "" + finalJawab[16].toString() +"",
+                                                "" + finalJawab[17].toString() +"",
+                                                "" + finalJawab[18].toString() +"",
+                                                "" + finalJawab[19].toString() +"",
+                                                "" + id_deteksi +""
+                                        ).enqueue(object : Callback<postPertanyaanJawabanModel>{
                             override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                 if(response.isSuccessful){
                                     //intent(idUser, getFinalValues, id_depresi, tanggal)
@@ -250,30 +280,186 @@ class DeteksiActivity : AppCompatActivity() {
                             }
 
                             override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
-                                if(t is SocketTimeoutException){
-                                    api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
-                                        override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
-                                            if(response.isSuccessful){
-                                                //intent(idUser, getFinalValues, id_depresi, tanggal)
-                                            }
+                                api.createPertanyaanJawaban("" + finalJawab[0].toString() + "",
+                                        "" + finalJawab[1].toString() + "",
+                                        "" + finalJawab[2].toString() +"",
+                                        "" + finalJawab[3].toString() +"",
+                                        "" + finalJawab[4].toString() +"",
+                                        "" + finalJawab[5].toString() +"",
+                                        "" + finalJawab[6].toString() +"",
+                                        "" + finalJawab[7].toString() +"",
+                                        "" + finalJawab[8].toString() +"",
+                                        "" + finalJawab[9].toString() +"",
+                                        "" + finalJawab[10].toString() +"",
+                                        "" + finalJawab[11].toString() +"",
+                                        "" + finalJawab[12].toString() +"",
+                                        "" + finalJawab[13].toString() +"",
+                                        "" + finalJawab[14].toString() +"",
+                                        "" + finalJawab[15].toString() +"",
+                                        "" + finalJawab[16].toString() +"",
+                                        "" + finalJawab[17].toString() +"",
+                                        "" + finalJawab[18].toString() +"",
+                                        "" + finalJawab[19].toString() +"",
+                                        "" + id_deteksi +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+                                    override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
+                                        if(response.isSuccessful){
+                                            //intent(idUser, getFinalValues, id_depresi, tanggal)
                                         }
+                                    }
 
-                                        override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
-                                            if(t is SocketTimeoutException){
-                                                dialog.dismiss()
-                                                Toast.makeText(this@DeteksiActivity,"timeout", Toast.LENGTH_LONG).show()
-                                            }
-                                        }
+                                    override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
+                                        Toast.makeText(this@DeteksiActivity,t.toString(), Toast.LENGTH_LONG).show()
+                                    }
 
-                                    })
-                                }
+                                })
                             }
 
                         })
-                    }
+//                val builders = AlertDialog.Builder(this@DeteksiActivity)
+//                    builders.setMessage(finalJawab[0].toString())
+//                            .setPositiveButton("jawab1", {
+//                                dialogInterface, i ->
+//                            })
+//                    val dialog = builders.create()
+//                    dialog.show()
+//                val builder2 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder2.setMessage(finalJawab[1].toString())
+//                        .setPositiveButton("jawab2", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog2 = builder2.create()
+//                dialog2.show()
+//                val builder3 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder3.setMessage(finalJawab[2].toString())
+//                        .setPositiveButton("jawab3", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog3 = builder3.create()
+//                dialog3.show()
+//                val builder4 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder4.setMessage(finalJawab[3].toString())
+//                        .setPositiveButton("jawab4", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog4 = builder4.create()
+//                dialog4.show()
+//                val builder5 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder5.setMessage(finalJawab[4].toString())
+//                        .setPositiveButton("jawab5", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog5 = builder5.create()
+//                dialog5.show()
+//                val builder6 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder6.setMessage(finalJawab[5].toString())
+//                        .setPositiveButton("jawab6", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog6 = builder6.create()
+//                dialog6.show()
+//                val builder7 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder7.setMessage(finalJawab[6].toString())
+//                        .setPositiveButton("jawab7", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog7 = builder7.create()
+//                dialog7.show()
+//                val builder8 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder8.setMessage(finalJawab[7].toString())
+//                        .setPositiveButton("jawab8", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog8 = builder8.create()
+//                dialog8.show()
+//                val builder9 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder9.setMessage(finalJawab[8].toString())
+//                        .setPositiveButton("jawab9", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog9 = builder9.create()
+//                dialog9.show()
+//                val builder10 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder10.setMessage(finalJawab[9].toString())
+//                        .setPositiveButton("jawab10", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog10 = builder10.create()
+//                dialog10.show()
+//                val builder11 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder11.setMessage(finalJawab[10].toString())
+//                        .setPositiveButton("jawab11", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog11 = builder11.create()
+//                dialog11.show()
+//                val builder12 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder12.setMessage(finalJawab[11].toString())
+//                        .setPositiveButton("jawab12", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog12 = builder12.create()
+//                dialog12.show()
+//                val builder13 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder13.setMessage(finalJawab[12].toString())
+//                        .setPositiveButton("jawab13", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog13 = builder13.create()
+//                dialog13.show()
+//                val builder14 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder14.setMessage(finalJawab[13].toString())
+//                        .setPositiveButton("jawab14", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog14 = builder14.create()
+//                dialog14.show()
+//                val builder15 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder15.setMessage(finalJawab[14].toString())
+//                        .setPositiveButton("jawab15", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog15 = builder15.create()
+//                dialog15.show()
+//                val builder16 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder16.setMessage(finalJawab[15].toString())
+//                        .setPositiveButton("jawab16", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog16 = builder16.create()
+//                dialog16.show()
+//                val builder17 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder17.setMessage(finalJawab[16].toString())
+//                        .setPositiveButton("jawab17", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog17 = builder17.create()
+//                dialog17.show()
+//                val builder18 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder18.setMessage(finalJawab[17].toString())
+//                        .setPositiveButton("jawab18", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog18 = builder18.create()
+//                dialog18.show()
+//                val builder19 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder19.setMessage(finalJawab[18].toString())
+//                        .setPositiveButton("jawab19", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog19 = builder19.create()
+//                dialog19.show()
+//                val builder20 = AlertDialog.Builder(this@DeteksiActivity)
+//                builder20.setMessage(finalJawab[19].toString())
+//                        .setPositiveButton("jawab20", {
+//                            dialogInterface, i ->
+//                        })
+//                val dialog20 = builder20.create()
+//                dialog20.show()
 
 
 
+
+                //intent(idUser, getFinalValues, id_depresi, tanggal)
 
             }
 
@@ -286,7 +472,7 @@ class DeteksiActivity : AppCompatActivity() {
                             "" + id_depresi + ""
                     ).enqueue(object : Callback<postDeteksiModel> {
                         override fun onResponse(call: Call<postDeteksiModel>, response: Response<postDeteksiModel>) {
-                            intent(idUser, getFinalValues, id_depresi, tanggal)
+
                             val id_deteksi = "${response.body()?.id}"
                             for (i in 0..19){
                                 val id_pertanyaan = i + 1
@@ -317,7 +503,27 @@ class DeteksiActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
-                                api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+                                api.createPertanyaanJawaban("" + finalJawab[0].toString() + "",
+                                        "" + finalJawab[1].toString() + "",
+                                        "" + finalJawab[2].toString() +"",
+                                        "" + finalJawab[3].toString() +"",
+                                        "" + finalJawab[4].toString() +"",
+                                        "" + finalJawab[5].toString() +"",
+                                        "" + finalJawab[6].toString() +"",
+                                        "" + finalJawab[7].toString() +"",
+                                        "" + finalJawab[8].toString() +"",
+                                        "" + finalJawab[9].toString() +"",
+                                        "" + finalJawab[10].toString() +"",
+                                        "" + finalJawab[11].toString() +"",
+                                        "" + finalJawab[12].toString() +"",
+                                        "" + finalJawab[13].toString() +"",
+                                        "" + finalJawab[14].toString() +"",
+                                        "" + finalJawab[15].toString() +"",
+                                        "" + finalJawab[16].toString() +"",
+                                        "" + finalJawab[17].toString() +"",
+                                        "" + finalJawab[18].toString() +"",
+                                        "" + finalJawab[19].toString() +"",
+                                        "" + id_deteksi +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                                     override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                         if(response.isSuccessful){
                                             //intent(idUser, getFinalValues, id_depresi, tanggal)
@@ -326,7 +532,27 @@ class DeteksiActivity : AppCompatActivity() {
 
                                     override fun onFailure(call: Call<postPertanyaanJawabanModel>, t: Throwable) {
                                         if(t is SocketTimeoutException){
-                                            api.createPertanyaanJawaban("" + id_deteksi + "", "" + id_pertanyaan + "", "" + nilai[i] +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
+                                            api.createPertanyaanJawaban("" + finalJawab[0].toString() + "",
+                                                    "" + finalJawab[1].toString() + "",
+                                                    "" + finalJawab[2].toString() +"",
+                                                    "" + finalJawab[3].toString() +"",
+                                                    "" + finalJawab[4].toString() +"",
+                                                    "" + finalJawab[5].toString() +"",
+                                                    "" + finalJawab[6].toString() +"",
+                                                    "" + finalJawab[7].toString() +"",
+                                                    "" + finalJawab[8].toString() +"",
+                                                    "" + finalJawab[9].toString() +"",
+                                                    "" + finalJawab[10].toString() +"",
+                                                    "" + finalJawab[11].toString() +"",
+                                                    "" + finalJawab[12].toString() +"",
+                                                    "" + finalJawab[13].toString() +"",
+                                                    "" + finalJawab[14].toString() +"",
+                                                    "" + finalJawab[15].toString() +"",
+                                                    "" + finalJawab[16].toString() +"",
+                                                    "" + finalJawab[17].toString() +"",
+                                                    "" + finalJawab[18].toString() +"",
+                                                    "" + finalJawab[19].toString() +"",
+                                                    "" + id_deteksi +"").enqueue(object : Callback<postPertanyaanJawabanModel>{
                                                 override fun onResponse(call: Call<postPertanyaanJawabanModel>, response: Response<postPertanyaanJawabanModel>) {
                                                     if(response.isSuccessful){
                                                         //intent(idUser, getFinalValues, id_depresi, tanggal)
@@ -347,8 +573,7 @@ class DeteksiActivity : AppCompatActivity() {
                                 })
                             }
 
-
-
+                            //intent(idUser, getFinalValues, id_depresi, tanggal)
 
                         }
 
@@ -362,6 +587,10 @@ class DeteksiActivity : AppCompatActivity() {
                 }
             }
         })
+
+
+
+        intent(idUser, getFinalValues, id_depresi, tanggal)
     }
 
     private fun intent (id_user: String, getFinalValues: Double, id_depresi: Int, tanggal: Timestamp){
