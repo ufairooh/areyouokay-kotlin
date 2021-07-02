@@ -103,6 +103,10 @@ interface ApiEndpoint {
     fun getArtikel(
     ) : Call<List<getArtikelModel>>
 
+    @GET("pertanyaan-list/")
+    fun getPertanyaan(
+    ) : Call<List<getPertanyaanModel>>
+
     @Headers("Accept: application/json")
     @GET("artikel-detail/{id}/")
     fun getIsiArtikel(

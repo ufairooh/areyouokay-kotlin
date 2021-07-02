@@ -11,9 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.example.areyouokay.API.ApiRetrofit
-import com.example.areyouokay.Model.Bobot
-import com.example.areyouokay.Model.postDeteksiModel
-import com.example.areyouokay.Model.postPertanyaanJawabanModel
+import com.example.areyouokay.Model.*
 import com.example.areyouokay.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -68,14 +66,35 @@ class DeteksiActivity : AppCompatActivity() {
     private lateinit var rg18: RadioGroup
     private lateinit var rg19: RadioGroup
     private lateinit var rg20: RadioGroup
+    private lateinit var soal_1: TextView
+    private lateinit var soal_2: TextView
+    private lateinit var soal_3: TextView
+    private lateinit var soal_4: TextView
+    private lateinit var soal_5: TextView
+    private lateinit var soal_6: TextView
+    private lateinit var soal_7: TextView
+    private lateinit var soal_8: TextView
+    private lateinit var soal_9: TextView
+    private lateinit var soal_10: TextView
+    private lateinit var soal_11: TextView
+    private lateinit var soal_12: TextView
+    private lateinit var soal_13: TextView
+    private lateinit var soal_14: TextView
+    private lateinit var soal_15: TextView
+    private lateinit var soal_16: TextView
+    private lateinit var soal_17: TextView
+    private lateinit var soal_18: TextView
+    private lateinit var soal_19: TextView
+    private lateinit var soal_20: TextView
     private lateinit var Selesai: Button
     private var rg = arrayOfNulls<RadioGroup>(20)
-    private var cfPakar = Bobot.PAKAR
     private var jawaban = Bobot.JAWABAN
     private val api by lazy { ApiRetrofit().endpoint }
     private lateinit var dialog: AlertDialog
     private lateinit var inflater: LayoutInflater
     private lateinit var btnSelesai: Button
+    val cfPakar = ArrayList<Double>()
+    val idsoal = ArrayList<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +102,58 @@ class DeteksiActivity : AppCompatActivity() {
         setContentView(R.layout.activity_deteksi)
 
         handlingUI()
+
+
+
+        api.getPertanyaan().enqueue(object :
+            Callback<List<getPertanyaanModel>> {
+            override fun onResponse(call: Call<List<getPertanyaanModel>>, response: Response<List<getPertanyaanModel>>) {
+                if (response.isSuccessful) {
+
+                    val listData = response.body()!!
+                    val data2 = listData.sortedBy { it.id.toInt() }
+
+                    data2.forEach {
+                        cfPakar.add(it.bobot!!.toDouble())
+                        idsoal.add(it.id!!)
+
+                    }
+
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<getPertanyaanModel>>, t: Throwable) {
+                if(t is SocketTimeoutException){
+                    api.getPertanyaan().enqueue(object :
+                        Callback<List<getPertanyaanModel>> {
+                        override fun onResponse(call: Call<List<getPertanyaanModel>>, response: Response<List<getPertanyaanModel>>) {
+                            if (response.isSuccessful) {
+                                val listData = response.body()!!
+                                val data2 = listData.sortedByDescending { it.id.toInt() }
+
+                                listData.forEach {
+                                    cfPakar.add(it.bobot!!.toDouble())
+                                    idsoal.add(it.id!!)
+                                }
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<getPertanyaanModel>>, t: Throwable) {
+                            if(t is SocketTimeoutException){
+                                dialog.dismiss()
+                                Toast.makeText(this@DeteksiActivity,"timeout", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+
+                    })
+                }
+            }
+
+
+        })
 
         Selesai = findViewById(R.id.Selesai)
         Selesai.setOnClickListener{
@@ -150,6 +221,8 @@ class DeteksiActivity : AppCompatActivity() {
                 0, 3, 6, 8, 11 -> {
                     val txtTotalTidakDepresi = cfPakar[i] * nilaiRB[i]!!.toDouble()
                     groupTidakDepresiList.add(txtTotalTidakDepresi)
+
+
                 }
                 // Depresi Ringan
                 5, 15, 16, 18, 19 -> {
@@ -315,151 +388,6 @@ class DeteksiActivity : AppCompatActivity() {
                             }
 
                         })
-//                val builders = AlertDialog.Builder(this@DeteksiActivity)
-//                    builders.setMessage(finalJawab[0].toString())
-//                            .setPositiveButton("jawab1", {
-//                                dialogInterface, i ->
-//                            })
-//                    val dialog = builders.create()
-//                    dialog.show()
-//                val builder2 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder2.setMessage(finalJawab[1].toString())
-//                        .setPositiveButton("jawab2", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog2 = builder2.create()
-//                dialog2.show()
-//                val builder3 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder3.setMessage(finalJawab[2].toString())
-//                        .setPositiveButton("jawab3", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog3 = builder3.create()
-//                dialog3.show()
-//                val builder4 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder4.setMessage(finalJawab[3].toString())
-//                        .setPositiveButton("jawab4", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog4 = builder4.create()
-//                dialog4.show()
-//                val builder5 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder5.setMessage(finalJawab[4].toString())
-//                        .setPositiveButton("jawab5", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog5 = builder5.create()
-//                dialog5.show()
-//                val builder6 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder6.setMessage(finalJawab[5].toString())
-//                        .setPositiveButton("jawab6", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog6 = builder6.create()
-//                dialog6.show()
-//                val builder7 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder7.setMessage(finalJawab[6].toString())
-//                        .setPositiveButton("jawab7", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog7 = builder7.create()
-//                dialog7.show()
-//                val builder8 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder8.setMessage(finalJawab[7].toString())
-//                        .setPositiveButton("jawab8", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog8 = builder8.create()
-//                dialog8.show()
-//                val builder9 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder9.setMessage(finalJawab[8].toString())
-//                        .setPositiveButton("jawab9", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog9 = builder9.create()
-//                dialog9.show()
-//                val builder10 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder10.setMessage(finalJawab[9].toString())
-//                        .setPositiveButton("jawab10", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog10 = builder10.create()
-//                dialog10.show()
-//                val builder11 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder11.setMessage(finalJawab[10].toString())
-//                        .setPositiveButton("jawab11", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog11 = builder11.create()
-//                dialog11.show()
-//                val builder12 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder12.setMessage(finalJawab[11].toString())
-//                        .setPositiveButton("jawab12", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog12 = builder12.create()
-//                dialog12.show()
-//                val builder13 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder13.setMessage(finalJawab[12].toString())
-//                        .setPositiveButton("jawab13", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog13 = builder13.create()
-//                dialog13.show()
-//                val builder14 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder14.setMessage(finalJawab[13].toString())
-//                        .setPositiveButton("jawab14", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog14 = builder14.create()
-//                dialog14.show()
-//                val builder15 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder15.setMessage(finalJawab[14].toString())
-//                        .setPositiveButton("jawab15", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog15 = builder15.create()
-//                dialog15.show()
-//                val builder16 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder16.setMessage(finalJawab[15].toString())
-//                        .setPositiveButton("jawab16", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog16 = builder16.create()
-//                dialog16.show()
-//                val builder17 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder17.setMessage(finalJawab[16].toString())
-//                        .setPositiveButton("jawab17", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog17 = builder17.create()
-//                dialog17.show()
-//                val builder18 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder18.setMessage(finalJawab[17].toString())
-//                        .setPositiveButton("jawab18", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog18 = builder18.create()
-//                dialog18.show()
-//                val builder19 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder19.setMessage(finalJawab[18].toString())
-//                        .setPositiveButton("jawab19", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog19 = builder19.create()
-//                dialog19.show()
-//                val builder20 = AlertDialog.Builder(this@DeteksiActivity)
-//                builder20.setMessage(finalJawab[19].toString())
-//                        .setPositiveButton("jawab20", {
-//                            dialogInterface, i ->
-//                        })
-//                val dialog20 = builder20.create()
-//                dialog20.show()
-
-
-
-
-                //intent(idUser, getFinalValues, id_depresi, tanggal)
 
             }
 
@@ -620,10 +548,114 @@ class DeteksiActivity : AppCompatActivity() {
         return CF
     }
 
+    private fun getPertanyaan(){
+
+    }
+
     @SuppressLint("SetTextI18n")
     private fun handlingUI() {
 
         var page = 0
+
+        val groupPertanyaan = ArrayList<String>()
+
+        soal_1 = findViewById(R.id.soal_1)
+        soal_2 = findViewById(R.id.soal_2)
+        soal_3 = findViewById(R.id.soal_3)
+        soal_4 = findViewById(R.id.soal_4)
+        soal_5 = findViewById(R.id.soal_5)
+        soal_6 = findViewById(R.id.soal_6)
+        soal_7 = findViewById(R.id.soal_7)
+        soal_8 = findViewById(R.id.soal_8)
+        soal_9 = findViewById(R.id.soal_9)
+        soal_10 = findViewById(R.id.soal_10)
+        soal_11 = findViewById(R.id.soal_11)
+        soal_12 = findViewById(R.id.soal_12)
+        soal_13 = findViewById(R.id.soal_13)
+        soal_14 = findViewById(R.id.soal_14)
+        soal_15 = findViewById(R.id.soal_15)
+        soal_16 = findViewById(R.id.soal_16)
+        soal_17 = findViewById(R.id.soal_17)
+        soal_18 = findViewById(R.id.soal_18)
+        soal_19 = findViewById(R.id.soal_19)
+        soal_20 = findViewById(R.id.soal_20)
+
+        val soal = arrayOf(
+                soal_1,
+                soal_2,
+                soal_3,
+                soal_4,
+                soal_5,
+                soal_6,
+                soal_7,
+                soal_8,
+                soal_9,
+                soal_10,
+                soal_11,
+                soal_12,
+                soal_13,
+                soal_14,
+                soal_15,
+                soal_16,
+                soal_17,
+                soal_18,
+                soal_19,
+                soal_20
+
+        )
+
+        api.getPertanyaan().enqueue(object :
+                Callback<List<getPertanyaanModel>> {
+            override fun onResponse(call: Call<List<getPertanyaanModel>>, response: Response<List<getPertanyaanModel>>) {
+                if (response.isSuccessful) {
+
+                    val listData = response.body()!!
+                    val data = listData.sortedBy { it.id.toInt() }
+
+                    data.forEach {
+                        groupPertanyaan.add(it.pertanyaan!!)
+                    }
+                    soal[0].setText("1. "+groupPertanyaan[0])
+
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<getPertanyaanModel>>, t: Throwable) {
+                if(t is SocketTimeoutException){
+                    api.getPertanyaan().enqueue(object :
+                            Callback<List<getPertanyaanModel>> {
+                        override fun onResponse(call: Call<List<getPertanyaanModel>>, response: Response<List<getPertanyaanModel>>) {
+                            if (response.isSuccessful) {
+                                val groupPertanyaan = ArrayList<String>()
+                                val listData = response.body()!!
+                                val data = listData.sortedBy { it.id.toInt() }
+
+                                data.forEach {
+                                    groupPertanyaan.add(it.pertanyaan!!)
+                                }
+                                soal[0].setText("1. "+groupPertanyaan[0])
+
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<getPertanyaanModel>>, t: Throwable) {
+                            if(t is SocketTimeoutException){
+                                dialog.dismiss()
+                                Toast.makeText(this@DeteksiActivity,"timeout", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+
+                    })
+                }
+            }
+
+
+        })
+
+
 
         frame_soal_1 = findViewById(R.id.frame_soal_1)
         frame_soal_2 = findViewById(R.id.frame_soal_2)
@@ -645,6 +677,8 @@ class DeteksiActivity : AppCompatActivity() {
         frame_soal_18 = findViewById(R.id.frame_soal_18)
         frame_soal_19 = findViewById(R.id.frame_soal_19)
         frame_soal_20 = findViewById(R.id.frame_soal_20)
+
+
 
 
         val frameList = arrayOf(
@@ -670,6 +704,8 @@ class DeteksiActivity : AppCompatActivity() {
                 frame_soal_20
         )
 
+
+
         btn_prev = findViewById(R.id.btn_prev)
         btn_prev.visibility = View.INVISIBLE
 
@@ -683,12 +719,15 @@ class DeteksiActivity : AppCompatActivity() {
                     page++
                     btn_prev.visibility = View.VISIBLE
                     when(page){
+
                         frameList.size - 1 -> btn_next.visibility = View.GONE
                     }
                     frameList.forEach { i ->
                         i.visibility = View.GONE
                     }
                     frameList[page].visibility = View.VISIBLE
+                    val nomor = page + 1
+                    soal[page].setText(nomor.toString() +". "+groupPertanyaan[page])
                 }
 
                 else -> Toast.makeText(this,"Jawaban tidak boleh kosong", Toast.LENGTH_LONG).show()
@@ -706,6 +745,8 @@ class DeteksiActivity : AppCompatActivity() {
                     i.visibility = View.GONE
                 }
                 frameList[page].visibility = View.VISIBLE
+                val nomor2 = page + 1
+                soal[page].setText(nomor2.toString() +". "+groupPertanyaan[page])
             }
         }
     }
